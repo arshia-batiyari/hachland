@@ -7,7 +7,13 @@
   <a href="{{ route('vendor.orders.index') }}" class="side-link {{ request()->routeIs('vendor.orders.*') ? 'on' : '' }}"><span class="lft">🧾 {{ __('site.sidebar.orders') }}</span></a>
 
   <div class="side-section">{{ __('site.sidebar.finance') }}</div>
+  <a href="{{ route('vendor.wallet.index') }}" class="side-link {{ request()->routeIs('vendor.wallet.*') ? 'on' : '' }}"><span class="lft">👛 {{ __('site.sidebar.wallet') }}</span></a>
   <a href="{{ route('vendor.settlements.index') }}" class="side-link {{ request()->routeIs('vendor.settlements.*') ? 'on' : '' }}"><span class="lft">💳 {{ __('site.sidebar.settlement') }}</span></a>
+  <a href="{{ route('vendor.contract.index') }}" class="side-link {{ request()->routeIs('vendor.contract.*') ? 'on' : '' }}">
+    <span class="lft">📄 {{ __('site.sidebar.my_contract') }}</span>
+    @php $awaitingContract = auth()->user()->booth?->currentContract()?->isAwaitingSignature(); @endphp
+    @if ($awaitingContract)<span class="side-count">1</span>@endif
+  </a>
 
   <div class="side-bottom">
     <div class="side-user">

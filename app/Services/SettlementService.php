@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Models\Booth;
+use App\Models\OrderItem;
 use App\Models\Settlement;
+use App\Models\WalletTransaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -14,37 +16,55 @@ use Illuminate\Support\Facades\DB;
 class SettlementService
 {
     /**
-     * برای یک غرفه، تمام آیتم‌های سفارشِ پرداخت‌شده و هنوز تسویه‌نشده را
-     * در یک رکورد Settlement جمع می‌کند.
+     * برای یک غرفه، همه‌ی اسناد تسویه‌نشده‌ی کیف پول (سهم فروش‌ها، برگشتی‌ها و
+     * اسناد اصلاحی) تا پایان بازه رو در یک رکورد Settlement جمع می‌کند.
+     * مبلغ قابل واریز = جمع جبری اسناد؛ پس برگشتی و جریمه‌ها خودکار کم می‌شن.
+     * اگه جمع صفر یا منفی باشه تسویه‌ای ساخته نمی‌شه و اسناد برای دوره‌ی بعد می‌مونن.
      */
     public function generateForBooth(Booth $booth, Carbon $periodStart, Carbon $periodEnd): ?Settlement
     {
         return DB::transaction(function () use ($booth, $periodStart, $periodEnd) {
 
-            $items = $booth->orderItems()
+            $rows = WalletTransaction::where('booth_id', $booth->id)
                 ->whereNull('settlement_id')
-                ->whereHas('order', function ($q) use ($periodEnd) {
-                    $q->where('payment_status', 'paid')
-                      ->whereDate('paid_at', '<=', $periodEnd);
-                })
+                ->whereIn('type', [
+                    WalletTransaction::TYPE_SALE,
+                    WalletTransaction::TYPE_REVERSAL,
+                    WalletTransaction::TYPE_ADJUSTMENT,
+                ])
+                ->whereDate('created_at', '<=', $periodEnd)
                 ->lockForUpdate()
                 ->get();
 
-            if ($items->isEmpty()) {
+            if ($rows->isEmpty()) {
                 return null;
             }
+
+            $payable = (int) $rows->sum('amount');
+
+            if ($payable <= 0) {
+                return null;
+            }
+
+            $sales = $rows->whereIn('type', [WalletTransaction::TYPE_SALE, WalletTransaction::TYPE_REVERSAL]);
 
             $settlement = Settlement::create([
                 'booth_id' => $booth->id,
                 'period_start' => $periodStart,
                 'period_end' => $periodEnd,
-                'total_sales' => $items->sum('line_total'),
-                'commission_amount' => $items->sum('commission_amount'),
-                'payable_amount' => $items->sum('booth_payout_amount'),
+                'total_sales' => (int) $sales->sum('gross_amount'),
+                'commission_amount' => (int) $sales->sum('commission_amount'),
+                'payable_amount' => $payable,
                 'status' => 'pending',
             ]);
 
-            $items->each->update(['settlement_id' => $settlement->id]);
+            WalletTransaction::whereIn('id', $rows->pluck('id'))->update(['settlement_id' => $settlement->id]);
+
+            // سازگاری با گزارش‌های قبلی که هنوز از order_items.settlement_id می‌خونن
+            $itemIds = $rows->where('type', WalletTransaction::TYPE_SALE)->pluck('order_item_id')->filter();
+            if ($itemIds->isNotEmpty()) {
+                OrderItem::whereIn('id', $itemIds)->update(['settlement_id' => $settlement->id]);
+            }
 
             return $settlement;
         });

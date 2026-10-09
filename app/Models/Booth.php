@@ -58,6 +58,32 @@ class Booth extends Model
         return $this->hasMany(Settlement::class);
     }
 
+    public function walletTransactions(): HasMany
+    {
+        return $this->hasMany(WalletTransaction::class);
+    }
+
+    public function contracts(): HasMany
+    {
+        return $this->hasMany(BoothContract::class)->latest('id');
+    }
+
+    /** آخرین قرارداد معتبر (امضاشده یا منتظر امضا) */
+    public function currentContract(): ?BoothContract
+    {
+        return $this->contracts()->current()->first();
+    }
+
+    /**
+     * سهم غرفه‌دار از فروش (٪) — مکمل کمیسیون هاچ لند.
+     * ستون اصلی همون commission_percent می‌مونه (برای اینکه محاسبه‌ی سفارش‌ها،
+     * تسویه و گزارش‌های قبلی دست‌نخورده بمونن)؛ سهم فقط روی همون بنا شده.
+     */
+    public function getSharePercentAttribute(): float
+    {
+        return round(100 - (float) $this->commission_percent, 2);
+    }
+
     public function scopeApproved($query)
     {
         return $query->where('status', 'approved');

@@ -48,5 +48,10 @@
         <a href="{{ route('register.landowner') }}">{{ __('site.footer.register_property') }}</a><a href="{{ route('properties.index') }}">{{ __('site.footer.browse_properties') }}</a>
       </div>
     </div>
+    <div class="foot-bottom">
+      <span>{{ __('site.footer.copyright', ['year' => jdate(now(), 'Y')]) }}</span>
+      <a referrerpolicy='origin' target='_blank' href='https://trustseal.enamad.ir/?id=7767570&Code=gJui3uzBRfIysxASki5OVd4dtJpyEORH'><img referrerpolicy='origin' src='https://trustseal.enamad.ir/logo.aspx?id=7767570&Code=gJui3uzBRfIysxASki5OVd4dtJpyEORH' alt='' style='cursor:pointer' code='gJui3uzBRfIysxASki5OVd4dtJpyEORH'></a>
+      <span>{{ __('site.footer.made_with') }} <a href="https://sitedooz.ir/"> سایت دوز </a></span>
+    </div>
   </div>
 </footer>

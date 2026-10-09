@@ -18,6 +18,7 @@ class OrderService
     public function __construct(
         protected ShippingService $shipping,
         protected SmsService $sms,
+        protected WalletService $wallet,
     ) {}
 
     /**
@@ -101,19 +102,28 @@ class OrderService
     }
 
     /**
-     * بعد از تأیید موفق پرداخت زرین‌پال فراخوانی می‌شود.
-     * برای هر غرفه‌ی درگیر در سفارش، یک مرسوله (Shipment) جدا می‌سازد
+     * بعد از تأیید پرداخت (درگاه یا تأیید دستی کارت‌به‌کارت توسط ادمین) فراخوانی می‌شود.
+     * برای هر غرفه‌ی درگیر در سفارش، یک مرسوله (Shipment) جدا می‌سازد،
+     * سهم هر غرفه رو به کیف پولش واریز می‌کند
      * و پیامک اطلاع‌رسانی به مشتری و هر غرفه‌دار ارسال می‌کند.
+     * اگه سفارش قبلاً پرداخت‌شده ثبت شده باشه هیچ کاری نمی‌کنه (جلوگیری از دوباره‌کاری با دوبار کلیک).
      */
-    public function markOrderPaid(Order $order, string $refId): void
+    public function markOrderPaid(Order $order, ?string $refId = null): void
     {
+        if ($order->isPaid()) {
+            return;
+        }
+
         DB::transaction(function () use ($order, $refId) {
-            $order->update([
+            $order->update(array_filter([
                 'payment_status' => 'paid',
                 'payment_ref_id' => $refId,
                 'paid_at'        => now(),
                 'status'         => 'processing',
-            ]);
+            ], fn ($v) => $v !== null));
+
+            // سهم هر غرفه از هر آیتم → کیف پول (طبق درصد قفل‌شده روی خود آیتم)
+            $this->wallet->creditPaidOrder($order);
 
             $items = $order->items()->with('booth.owner')->get();
             $breakdown = $order->shipping_breakdown ?? [];

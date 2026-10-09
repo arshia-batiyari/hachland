@@ -38,6 +38,12 @@
     @php $pendingSettle = \App\Models\Settlement::where('status','pending')->count(); @endphp
     @if ($pendingSettle)<span class="side-count">{{ $pendingSettle }}</span>@endif
   </a>
+  <a href="{{ route('admin.wallets.index') }}" class="side-link {{ request()->routeIs('admin.wallets.*') ? 'on' : '' }}"><span class="lft">👛 {{ __('site.sidebar.wallets') }}</span></a>
+  <a href="{{ route('admin.contracts.index') }}" class="side-link {{ request()->routeIs('admin.contracts.*') ? 'on' : '' }}">
+    <span class="lft">📄 {{ __('site.sidebar.contracts') }}</span>
+    @php $awaitingContracts = \App\Models\BoothContract::where('status', 'awaiting_signature')->count(); @endphp
+    @if ($awaitingContracts)<span class="side-count">{{ $awaitingContracts }}</span>@endif
+  </a>
 
   <div class="side-bottom">
     <div class="side-user">

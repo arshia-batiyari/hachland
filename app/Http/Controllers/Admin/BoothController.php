@@ -25,7 +25,10 @@ class BoothController extends Controller
     {
         $booth->load('owner', 'categories', 'products');
 
-        return view('admin.booths.show', compact('booth'));
+        $contract = $booth->currentContract();
+        $walletSummary = app(\App\Services\WalletService::class)->summary($booth);
+
+        return view('admin.booths.show', compact('booth', 'contract', 'walletSummary'));
     }
 
     /**
@@ -110,12 +113,25 @@ class BoothController extends Controller
         return back()->with('success', "وضعیت غرفه «{$booth->localized_name}» به «{$statusLabel}» تغییر کرد.");
     }
 
-    /** ادمین می‌تواند درصد کمیسیون هر غرفه را جدا تنظیم کند */
-    public function updateCommission(Request $request, Booth $booth)
+    /**
+     * مسیر قدیمی تنظیم سریع درصد. حالا هر تغییر درصد یک قرارداد جدید صادر می‌کنه
+     * (با دوره‌ی تسویه و مدت قراردادِ قرارداد قبلی، یا پیش‌فرض ۱۵ روز/۱۲ ماه).
+     */
+    public function updateCommission(Request $request, Booth $booth, \App\Services\ContractService $contracts)
     {
-        $data = $request->validate(['commission_percent' => 'required|numeric|min:0|max:100']);
-        $booth->update($data);
+        $data = $request->validate(['commission_percent' => 'required|numeric|min:0|max:99']);
 
-        return back()->with('success', 'درصد کمیسیون به‌روزرسانی شد.');
+        $previous = $booth->contracts()->first();
+
+        $contracts->issue(
+            $booth,
+            100 - (float) $data['commission_percent'],
+            (int) ($previous->settlement_cycle_days ?? 15),
+            (int) ($previous->term_months ?? 12),
+            $previous->special_terms ?? null,
+            $request->user(),
+        );
+
+        return back()->with('success', __('wallet.issued_short'));
     }
 }

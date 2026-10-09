@@ -945,9 +945,6 @@ body{background:var(--bg);}
 .pwa-banner-text strong{ font-size:13.5px; font-weight:800; }
 .pwa-banner-text span{ font-size:11.5px; color:#C7BBA5; line-height:1.6; }
 .pwa-banner-ios-text{ display:none; }
-.pwa-banner-manual-text{ display:none; }
-.pwa-banner-manual-text:not([hidden]){ display:block; color:#E2AD52; }
-.pwa-manual-install .js-pwa-install{ opacity:.75; }
 .pwa-banner.is-ios .pwa-banner-default-text{ display:none; }
 .pwa-banner.is-ios .pwa-banner-ios-text{ display:block; }
 .pwa-banner.is-ios .js-pwa-install{ display:none; }

@@ -8,7 +8,6 @@
       <strong>{{ $isPanel ? __('site.pwa.panel_title') : __('site.pwa.site_title') }}</strong>
       <span class="pwa-banner-default-text">{{ $isPanel ? __('site.pwa.panel_subtitle') : __('site.pwa.site_subtitle') }}</span>
       <span class="pwa-banner-ios-text">{{ __('site.pwa.ios_instructions') }}</span>
-      <span class="pwa-banner-manual-text" hidden>از منوی مرورگر گزینه «Install app / نصب برنامه» را انتخاب کنید.</span>
     </div>
     <div class="pwa-banner-actions">
       <button type="button" class="btn btn-primary btn-sm js-pwa-install">{{ __('site.pwa.install_button') }}</button>

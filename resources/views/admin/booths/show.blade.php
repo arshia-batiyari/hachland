@@ -93,6 +93,55 @@
     <div class="stat-mini"><span>{{ __('site.auth.bank_iban') }}</span><b style="direction:ltr; display:inline-block;">{{ $booth->bank_iban ?: '—' }}</b></div>
   </div>
 </div>
+
+{{-- ---------- CONTRACT & COMMISSION ---------- --}}
+<div class="panel" style="margin-bottom:26px;">
+  <div class="panel-head">
+    <h3>{{ __('wallet.issue_contract_title') }}</h3>
+    <a href="{{ route('admin.wallets.show', $booth) }}" class="link">{{ __('wallet.wallet_title') }}</a>
+  </div>
+
+  @php $currentContract = $booth->currentContract(); @endphp
+
+  @if ($currentContract)
+    <div class="contract-current-box">
+      <div>
+        <span class="status-pill {{ $currentContract->isSigned() ? 'done' : 'pending' }}">{{ $currentContract->status_label }}</span>
+        <b style="margin-right:8px;">{{ $currentContract->contract_number }}</b>
+        <span style="color:var(--ink-soft); font-size:12.5px;"> — {{ __('wallet.contract_share') }}: {{ $currentContract->share_percent_label }}٪</span>
+      </div>
+      <a href="{{ route('admin.contracts.show', $currentContract) }}" class="row-actions">{{ __('site.panel.view_document') }}</a>
+    </div>
+  @else
+    <p style="font-size:13px; color:var(--ink-soft); margin-bottom:16px;">{{ __('wallet.no_contract_yet') }}</p>
+  @endif
+
+  <form action="{{ route('admin.contracts.issue', $booth) }}" method="POST" style="margin-top:18px; border-top:1px solid var(--border); padding-top:18px;">
+    @csrf
+    <p style="font-size:12.5px; color:var(--ink-soft); margin-bottom:16px; line-height:1.8;">{{ __('wallet.issue_contract_body') }}</p>
+    <div class="form-grid-2">
+      <div class="field-group">
+        <label>{{ __('wallet.share_percent_label') }}</label>
+        <input type="number" name="share_percent" class="field" required min="1" max="100" step="0.01" value="{{ old('share_percent', $currentContract->share_percent ?? $booth->share_percent) }}">
+      </div>
+      <div class="field-group">
+        <label>{{ __('wallet.settlement_cycle_label') }}</label>
+        <input type="number" name="settlement_cycle_days" class="field" required min="1" max="90" value="{{ old('settlement_cycle_days', $currentContract->settlement_cycle_days ?? 15) }}">
+      </div>
+    </div>
+    <div class="form-grid-2">
+      <div class="field-group">
+        <label>{{ __('wallet.term_months_label') }}</label>
+        <input type="number" name="term_months" class="field" required min="1" max="60" value="{{ old('term_months', $currentContract->term_months ?? 12) }}">
+      </div>
+    </div>
+    <div class="field-group">
+      <label>{{ __('wallet.special_terms_label') }}</label>
+      <textarea name="special_terms" class="field" rows="3">{{ old('special_terms', $currentContract->special_terms ?? '') }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">{{ __('wallet.issue_submit') }}</button>
+  </form>
+</div>
 @endsection
 
 @push('scripts')

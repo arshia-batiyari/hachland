@@ -100,6 +100,13 @@ Route::middleware(['auth', 'role:vendor'])->prefix('vendor')->name('vendor.')->g
     Route::post('/orders/{shipment}/ship', [VendorOrderController::class, 'markShipped'])->name('orders.ship');
 
     Route::get('/settlements', [VendorSettlementController::class, 'index'])->name('settlements.index');
+
+    Route::get('/wallet', [\App\Http\Controllers\Vendor\WalletController::class, 'index'])->name('wallet.index');
+
+    Route::get('/contract', [\App\Http\Controllers\Vendor\ContractController::class, 'index'])->name('contract.index');
+    Route::get('/contract/{contract}', [\App\Http\Controllers\Vendor\ContractController::class, 'show'])->name('contract.show');
+    Route::post('/contract/{contract}/sign', [\App\Http\Controllers\Vendor\ContractController::class, 'sign'])->name('contract.sign');
+    Route::get('/contract/{contract}/print', [\App\Http\Controllers\Vendor\ContractController::class, 'print'])->name('contract.print');
 });
 
 /*
@@ -148,6 +155,18 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/settlements', [AdminSettlementController::class, 'index'])->name('settlements.index');
     Route::post('/settlements/generate', [AdminSettlementController::class, 'generate'])->name('settlements.generate');
     Route::post('/settlements/{settlement}/pay', [AdminSettlementController::class, 'markPaid'])->name('settlements.pay');
+
+    // کیف پول و حسابداری غرفه‌ها
+    Route::get('/wallets', [\App\Http\Controllers\Admin\WalletController::class, 'index'])->name('wallets.index');
+    Route::get('/wallets/{booth}', [\App\Http\Controllers\Admin\WalletController::class, 'show'])->name('wallets.show');
+    Route::post('/wallets/{booth}/adjust', [\App\Http\Controllers\Admin\WalletController::class, 'adjust'])->name('wallets.adjust');
+
+    // قرارداد همکاری و سهم غرفه‌ها
+    Route::get('/contracts', [\App\Http\Controllers\Admin\ContractController::class, 'index'])->name('contracts.index');
+    Route::get('/contracts/{contract}', [\App\Http\Controllers\Admin\ContractController::class, 'show'])->name('contracts.show');
+    Route::get('/contracts/{contract}/print', [\App\Http\Controllers\Admin\ContractController::class, 'print'])->name('contracts.print');
+    Route::post('/booths/{booth}/contract', [\App\Http\Controllers\Admin\ContractController::class, 'issue'])->name('contracts.issue');
+    Route::post('/contracts/{contract}/void', [\App\Http\Controllers\Admin\ContractController::class, 'void'])->name('contracts.void');
 
     // املاک — تأیید/رد آگهی و مشاهده درخواست‌های ارتباطی (فقط ادمین این درخواست‌ها را می‌بیند)
     Route::get('/properties', [\App\Http\Controllers\Admin\PropertyController::class, 'index'])->name('properties.index');

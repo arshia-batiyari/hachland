@@ -17,7 +17,7 @@
  * در رفتار قبلی).
  */
 
-const CACHE_VERSION = 'hachland-static-v4';
+const CACHE_VERSION = 'hachland-static-v3';
 
 const PRECACHE_URLS = [
   '/images/logo.png',

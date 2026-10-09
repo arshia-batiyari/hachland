@@ -38,13 +38,22 @@ class Settlement extends Model
         return $this->belongsTo(User::class, 'paid_by');
     }
 
+    /** پرداخت‌شده کردن تسویه + ثبت برداشت معادلش در کیف پول (در یک تراکنش) */
     public function markPaid(User $admin, string $paymentReference): void
     {
-        $this->update([
-            'status' => 'paid',
-            'paid_by' => $admin->id,
-            'payment_reference' => $paymentReference,
-            'paid_at' => now(),
-        ]);
+        \Illuminate\Support\Facades\DB::transaction(function () use ($admin, $paymentReference) {
+            if ($this->status === 'paid') {
+                return;
+            }
+
+            $this->update([
+                'status' => 'paid',
+                'paid_by' => $admin->id,
+                'payment_reference' => $paymentReference,
+                'paid_at' => now(),
+            ]);
+
+            app(\App\Services\WalletService::class)->recordPayout($this, $admin);
+        });
     }
 }
