@@ -373,46 +373,39 @@ document.addEventListener('DOMContentLoaded', function () {
         var visible = false;
         var dragging = false;
         var moved = false;
-        var axis = null;
         var startX = 0;
-        var startY = 0;
         var startScroll = 0;
 
         if (prev) prev.addEventListener('click', function () { paused = true; scrollDir(-1); window.setTimeout(function () { paused = false; }, 4000); });
         if (next) next.addEventListener('click', function () { paused = true; scrollDir(1); window.setTimeout(function () { paused = false; }, 4000); });
 
+        track.addEventListener('dragstart', function (e) { e.preventDefault(); });
+
         track.addEventListener('pointerdown', function (e) {
-            if (e.pointerType === 'mouse' && e.button !== 0) return;
+            if (e.pointerType !== 'mouse' || e.button !== 0) return;
+            if (e.target.closest('button')) return;
             dragging = true;
             moved = false;
-            axis = null;
             startX = e.clientX;
-            startY = e.clientY;
             startScroll = track.scrollLeft;
             paused = true;
         });
 
         track.addEventListener('pointermove', function (e) {
-            if (!dragging) return;
+            if (!dragging || e.pointerType !== 'mouse') return;
             var dx = e.clientX - startX;
-            var dy = e.clientY - startY;
-            if (!axis) {
-                if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
-                axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
-                if (axis === 'y') { dragging = false; paused = false; return; }
+            if (Math.abs(dx) < 4) return;
+            if (!moved) {
+                moved = true;
                 track.classList.add('is-dragging');
                 if (track.setPointerCapture) track.setPointerCapture(e.pointerId);
             }
-            if (axis !== 'x') return;
-            e.preventDefault();
-            moved = true;
             track.scrollLeft = mode === 'ltr' ? startScroll - dx : startScroll + dx;
-        }, { passive: false });
+        });
 
         function endDrag() {
-            if (!dragging && !track.classList.contains('is-dragging')) return;
+            if (!dragging) return;
             dragging = false;
-            axis = null;
             track.classList.remove('is-dragging');
             window.setTimeout(function () { paused = false; }, 4000);
         }

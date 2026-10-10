@@ -101,36 +101,40 @@
       <div class="estate-col">
         <h3>{{ __('site.home.estate_col') }}</h3>
         <a href="{{ route('properties.index') }}" class="estate-cover">
-          <img src="{{ asset('images/placeholders/banners/real-estate.webp') }}" alt="">
+          <img src="{{ asset('images/home/estate-property.jpg') }}" alt="">
           <span><b>{{ __('site.home.service_properties') }}</b><small>{{ __('site.home.service_properties_sub') }}</small></span>
         </a>
-        <a href="{{ route('property-requests.index') }}" class="estate-line">
-          <b>{{ __('site.home.service_requests') }}</b>
-          <small>{{ __('site.home.service_requests_sub') }}</small>
-          <svg class="estate-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
-        </a>
-        <a href="{{ route('register.landowner') }}" class="estate-line">
-          <b>{{ __('site.home.service_list') }}</b>
-          <small>{{ __('site.home.service_list_sub') }}</small>
-          <svg class="estate-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
-        </a>
+        <div class="estate-menu">
+          <a href="{{ route('property-requests.index') }}" class="estate-line">
+            <span class="estate-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="6"/><path d="m20 20-3.5-3.5"/></svg></span>
+            <span class="estate-copy"><b>{{ __('site.home.service_requests') }}</b><small>{{ __('site.home.service_requests_sub') }}</small></span>
+            <svg class="estate-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg>
+          </a>
+          <a href="{{ route('register.landowner') }}" class="estate-line">
+            <span class="estate-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/><rect x="4" y="4" width="16" height="16" rx="3"/></svg></span>
+            <span class="estate-copy"><b>{{ __('site.home.service_list') }}</b><small>{{ __('site.home.service_list_sub') }}</small></span>
+            <svg class="estate-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg>
+          </a>
+        </div>
       </div>
       <div class="estate-col">
         <h3>{{ __('site.home.build_col') }}</h3>
         <a href="{{ route('materials.index') }}" class="estate-cover">
-          <img src="{{ asset('images/placeholders/banners/building-cement.webp') }}" alt="">
+          <img src="{{ asset('images/home/estate-build.jpg') }}" alt="">
           <span><b>{{ __('site.home.service_materials') }}</b><small>{{ __('site.home.service_materials_sub') }}</small></span>
         </a>
-        <a href="{{ route('category.show', 'building-materials') }}" class="estate-line">
-          <b>{{ __('site.home.service_buy') }}</b>
-          <small>{{ __('site.home.service_buy_sub') }}</small>
-          <svg class="estate-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
-        </a>
-        <a href="{{ route('materials.create') }}" class="estate-line">
-          <b>{{ __('site.home.service_post') }}</b>
-          <small>{{ __('site.home.service_post_sub') }}</small>
-          <svg class="estate-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
-        </a>
+        <div class="estate-menu">
+          <a href="{{ route('category.show', 'building-materials') }}" class="estate-line">
+            <span class="estate-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 8 12 3 3 8l9 5 9-5Z"/><path d="M3 8v8l9 5 9-5V8"/></svg></span>
+            <span class="estate-copy"><b>{{ __('site.home.service_buy') }}</b><small>{{ __('site.home.service_buy_sub') }}</small></span>
+            <svg class="estate-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg>
+          </a>
+          <a href="{{ route('materials.create') }}" class="estate-line">
+            <span class="estate-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 4h8l1 3H7l1-3Z"/><path d="M6 7h12v13H6z"/><path d="M12 11v6M9 14h6"/></svg></span>
+            <span class="estate-copy"><b>{{ __('site.home.service_post') }}</b><small>{{ __('site.home.service_post_sub') }}</small></span>
+            <svg class="estate-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg>
+          </a>
+        </div>
       </div>
     </div>
   </div>
