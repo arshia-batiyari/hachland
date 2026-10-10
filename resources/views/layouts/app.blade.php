@@ -400,7 +400,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 track.classList.add('is-dragging');
                 if (track.setPointerCapture) track.setPointerCapture(e.pointerId);
             }
-            track.scrollLeft = mode === 'ltr' ? startScroll - dx : startScroll + dx;
+            track.scrollLeft = startScroll - dx;
         });
 
         function endDrag() {
