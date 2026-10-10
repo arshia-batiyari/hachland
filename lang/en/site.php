@@ -93,6 +93,8 @@ return [
         'materials_promo_post' => 'Post a material need',
         'services_heading' => 'Real estate and construction',
         'services_sub' => 'Start with a listing, a property request, or materials for the job site',
+        'estate_col' => 'Real estate',
+        'build_col' => 'Construction',
         'service_properties' => 'Property listings',
         'service_properties_sub' => 'Sale, partnership, and barter',
         'service_requests' => 'Property requests',

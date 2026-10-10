@@ -97,37 +97,41 @@
         <p>{{ __('site.home.services_sub') }}</p>
       </div>
     </div>
-    <div class="service-grid">
-      <a href="{{ route('properties.index') }}" class="service-tile">
-        <span class="service-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 4l8 6.5"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/></svg></span>
-        <b>{{ __('site.home.service_properties') }}</b>
-        <span>{{ __('site.home.service_properties_sub') }}</span>
-      </a>
-      <a href="{{ route('property-requests.index') }}" class="service-tile">
-        <span class="service-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="m20 20-3.5-3.5"/><path d="M11 8.5v5M8.5 11h5"/></svg></span>
-        <b>{{ __('site.home.service_requests') }}</b>
-        <span>{{ __('site.home.service_requests_sub') }}</span>
-      </a>
-      <a href="{{ route('register.landowner') }}" class="service-tile">
-        <span class="service-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/><rect x="3" y="3" width="18" height="18" rx="4"/></svg></span>
-        <b>{{ __('site.home.service_list') }}</b>
-        <span>{{ __('site.home.service_list_sub') }}</span>
-      </a>
-      <a href="{{ route('materials.index') }}" class="service-tile">
-        <span class="service-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21v-6h6v6"/></svg></span>
-        <b>{{ __('site.home.service_materials') }}</b>
-        <span>{{ __('site.home.service_materials_sub') }}</span>
-      </a>
-      <a href="{{ route('category.show', 'building-materials') }}" class="service-tile">
-        <span class="service-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8l9 5 9-5Z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></span>
-        <b>{{ __('site.home.service_buy') }}</b>
-        <span>{{ __('site.home.service_buy_sub') }}</span>
-      </a>
-      <a href="{{ route('materials.create') }}" class="service-tile">
-        <span class="service-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8l1 3H7l1-3Z"/><path d="M6 7h12v13H6z"/><path d="M12 11v6M9 14h6"/></svg></span>
-        <b>{{ __('site.home.service_post') }}</b>
-        <span>{{ __('site.home.service_post_sub') }}</span>
-      </a>
+    <div class="estate-split">
+      <div class="estate-col">
+        <h3>{{ __('site.home.estate_col') }}</h3>
+        <a href="{{ route('properties.index') }}" class="estate-cover">
+          <img src="{{ asset('images/placeholders/banners/real-estate.webp') }}" alt="">
+          <span><b>{{ __('site.home.service_properties') }}</b><small>{{ __('site.home.service_properties_sub') }}</small></span>
+        </a>
+        <a href="{{ route('property-requests.index') }}" class="estate-line">
+          <b>{{ __('site.home.service_requests') }}</b>
+          <small>{{ __('site.home.service_requests_sub') }}</small>
+          <svg class="estate-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </a>
+        <a href="{{ route('register.landowner') }}" class="estate-line">
+          <b>{{ __('site.home.service_list') }}</b>
+          <small>{{ __('site.home.service_list_sub') }}</small>
+          <svg class="estate-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </a>
+      </div>
+      <div class="estate-col">
+        <h3>{{ __('site.home.build_col') }}</h3>
+        <a href="{{ route('materials.index') }}" class="estate-cover">
+          <img src="{{ asset('images/placeholders/banners/building-cement.webp') }}" alt="">
+          <span><b>{{ __('site.home.service_materials') }}</b><small>{{ __('site.home.service_materials_sub') }}</small></span>
+        </a>
+        <a href="{{ route('category.show', 'building-materials') }}" class="estate-line">
+          <b>{{ __('site.home.service_buy') }}</b>
+          <small>{{ __('site.home.service_buy_sub') }}</small>
+          <svg class="estate-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </a>
+        <a href="{{ route('materials.create') }}" class="estate-line">
+          <b>{{ __('site.home.service_post') }}</b>
+          <small>{{ __('site.home.service_post_sub') }}</small>
+          <svg class="estate-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </a>
+      </div>
     </div>
   </div>
 </section>

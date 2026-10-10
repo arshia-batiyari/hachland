@@ -93,6 +93,8 @@ return [
         'materials_promo_post' => 'ثبت نیاز مصالح',
         'services_heading' => 'املاک و ساخت‌وساز',
         'services_sub' => 'آگهی ملک، درخواست ساخت و تأمین مصالح را از همین‌جا شروع کنید',
+        'estate_col' => 'املاک',
+        'build_col' => 'ساخت‌وساز',
         'service_properties' => 'آگهی ملک',
         'service_properties_sub' => 'خرید، مشارکت و تهاتر',
         'service_requests' => 'درخواست ملک',
