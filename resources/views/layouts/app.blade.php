@@ -332,10 +332,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         function step() {
             var item = track.querySelector('.h-swiper-item');
-            if (!item) return Math.round(track.clientWidth * 0.8);
+            if (!item) return track.clientWidth;
             var styles = getComputedStyle(track);
-            var gap = parseFloat(styles.columnGap || styles.gap) || 16;
-            return Math.round(item.getBoundingClientRect().width + gap);
+            var gap = parseFloat(styles.columnGap || styles.gap) || 18;
+            var card = item.getBoundingClientRect().width + gap;
+            var visible = Math.max(1, Math.floor((track.clientWidth + gap) / card));
+            return Math.round(card * visible);
         }
 
         function fromStart() {

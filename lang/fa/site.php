@@ -56,6 +56,8 @@ return [
         'link_copied' => 'لینک کپی شد!',
         'swiper_prev' => 'قبلی',
         'swiper_next' => 'بعدی',
+        'amount' => 'مبلغ',
+        'negotiable' => 'توافقی',
     ],
 
     'home' => [

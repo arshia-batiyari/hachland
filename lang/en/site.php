@@ -56,6 +56,8 @@ return [
         'link_copied' => 'Link copied!',
         'swiper_prev' => 'Previous',
         'swiper_next' => 'Next',
+        'amount' => 'Amount',
+        'negotiable' => 'Negotiable',
     ],
 
     'home' => [

@@ -189,31 +189,7 @@
     </div>
     @include('partials.swiper-open')
       @foreach ($featuredBooths as $booth)
-        <div class="h-swiper-item">
-          <a href="{{ route('booth.show', $booth->slug) }}" class="booth-card">
-            <div class="booth-media">
-              <img src="{{ $booth->banner_url }}" alt="{{ $booth->localized_name }}" class="media-img" loading="lazy">
-              @if ($booth->online_payment_enabled)
-                <span class="booth-badge">{{ __('site.common.online_payment') }}</span>
-              @endif
-            </div>
-            <div class="booth-body">
-              <div class="booth-top">
-                <div class="booth-logo">
-                  @if ($booth->logo_url)<img src="{{ $booth->logo_url }}" alt="{{ $booth->localized_name }}">@else{{ mb_substr($booth->localized_name, 0, 1) }}@endif
-                </div>
-                <div><h3>{{ $booth->localized_name }}</h3><span class="cat">{{ $booth->categories->first()?->localized_name }}</span></div>
-              </div>
-              <p class="booth-desc">{{ \Illuminate\Support\Str::limit($booth->description[app()->getLocale()] ?? $booth->description['fa'] ?? '', 70) }}</p>
-              <div class="booth-foot">
-                <span class="products">{{ $booth->products_count }} {{ __('site.common.product') }}</span>
-                @if ($booth->online_payment_enabled)
-                  <span class="pay">{{ __('site.common.buy_direct') }}</span>
-                @endif
-              </div>
-            </div>
-          </a>
-        </div>
+        <div class="h-swiper-item">@include('partials.booth-flip-card')</div>
       @endforeach
     @include('partials.swiper-close')
   </div>
@@ -229,31 +205,7 @@
     </div>
     @include('partials.swiper-open')
       @foreach ($buildingBooths as $booth)
-        <div class="h-swiper-item">
-          <a href="{{ route('booth.show', $booth->slug) }}" class="booth-card">
-            <div class="booth-media">
-              <img src="{{ $booth->banner_url }}" alt="{{ $booth->localized_name }}" class="media-img" loading="lazy">
-              @if ($booth->online_payment_enabled)
-                <span class="booth-badge">{{ __('site.common.online_payment') }}</span>
-              @endif
-            </div>
-            <div class="booth-body">
-              <div class="booth-top">
-                <div class="booth-logo">
-                  @if ($booth->logo_url)<img src="{{ $booth->logo_url }}" alt="{{ $booth->localized_name }}">@else{{ mb_substr($booth->localized_name, 0, 1) }}@endif
-                </div>
-                <div><h3>{{ $booth->localized_name }}</h3><span class="cat">{{ $booth->categories->first()?->localized_name }}</span></div>
-              </div>
-              <p class="booth-desc">{{ \Illuminate\Support\Str::limit($booth->description[app()->getLocale()] ?? $booth->description['fa'] ?? '', 70) }}</p>
-              <div class="booth-foot">
-                <span class="products">{{ $booth->products_count }} {{ __('site.common.product') }}</span>
-                @if ($booth->online_payment_enabled)
-                  <span class="pay">{{ __('site.common.buy_direct') }}</span>
-                @endif
-              </div>
-            </div>
-          </a>
-        </div>
+        <div class="h-swiper-item">@include('partials.booth-flip-card')</div>
       @endforeach
     @include('partials.swiper-close')
   </div>

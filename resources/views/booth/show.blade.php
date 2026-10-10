@@ -105,42 +105,7 @@
       @else
         <div class="prod-grid">
           @foreach ($products as $product)
-            <div class="booth-card booth-product-card" data-product-slug="{{ $product->slug }}" style="position:relative;">
-              <a href="{{ route('product.show', $product) }}" style="position:absolute; inset:0; z-index:1;" aria-label="مشاهده {{ $product->localized_name }}"></a>
-              <div class="prod-media">
-                <img src="{{ $product->image_url }}" alt="{{ $product->localized_name }}" class="media-img" loading="lazy">
-                @if(($product->discount_percent ?? 0) > 0)
-                  <span class="discount-badge">٪{{ $product->discount_percent }} تخفیف</span>
-                @endif
-                <span class="prod-badge" style="{{ $product->stock == 0 ? 'color:#9AA79B;' : '' }}">
-                  {{ $product->stock == 0 ? __('site.common.unavailable') : ($product->stock <= 3 ? __('site.common.items_left', ['count' => $product->stock]) : __('site.common.available')) }}
-                </span>
-              </div>
-              <div class="prod-body">
-                <b>{{ $product->localized_name }}</b>
-                <div class="prod-price-row">
-                  <div class="prod-price">
-                    @if($product->discount_percent > 0)
-                      <del style="font-size:11px; margin-left:6px;">{{ number_format($product->price) }}</del>
-                    @endif
-                    {{ number_format($product->final_price) }}<small> {{ __('site.common.toman') }}</small>
-                  </div>
-                </div>
-                @if($product->booth->online_payment_enabled && $product->stock > 0)
-                  <form action="{{ route('product.cart.ajax', $product) }}" method="POST" class="js-add-to-cart-form" data-product-name="{{ $product->localized_name }}" style="position:relative; z-index:2; margin-top:10px;">
-                    @csrf
-                    <input type="hidden" name="quantity" value="1">
-                    <button type="submit" class="btn btn-primary" style="padding:6px 14px; font-size:12px; width:100%;">
-                      {{ __('site.common.add_to_cart') }}
-                    </button>
-                  </form>
-                @elseif($product->stock <= 0)
-                  <div style="position:relative; z-index:2; margin-top:10px;">
-                    <span class="status-pill cancelled" style="font-size:11px;">{{ __('site.common.unavailable') }}</span>
-                  </div>
-                @endif
-              </div>
-            </div>
+            @include('partials.product-card')
           @endforeach
         </div>
         <div class="pagination">{{ $products->links() }}</div>
