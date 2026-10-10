@@ -9,7 +9,7 @@
 <div class="topbar">
   <div><h1>{{ $booth->localized_name }}</h1><p>{{ __('wallet.wallet_title') }}</p></div>
   <div style="display:flex; gap:10px;">
-    <a href="{{ route('admin.booths.show', $booth) }}" class="btn btn-ghost btn-sm">{{ __('site.panel.view_document') }}</a>
+    <a href="{{ route('admin.booths.show', $booth) }}" class="btn btn-ghost btn-sm">{{ __('site.panel.view_details') }}</a>
     @if ($contract)
       <a href="{{ route('admin.contracts.show', $contract) }}" class="btn btn-ghost btn-sm">{{ __('wallet.contract_title') }} — {{ $contract->share_percent_label }}٪</a>
     @endif
