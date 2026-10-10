@@ -18,10 +18,6 @@
     <a href="{{ route('materials.create') }}" class="btn btn-primary">{{ __('site.materials.post_request') }}</a>
   </div>
 
-  @if (session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
-  @endif
-
   <div class="subcats">
     <a href="{{ route('materials.index', request()->except('type', 'page')) }}" class="chip {{ !request('type') ? 'on' : '' }}">{{ __('site.common.all') }}</a>
     @foreach (\App\Models\MaterialRequest::TYPES as $type)

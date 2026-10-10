@@ -14,9 +14,6 @@
   <a href="{{ route('materials.index') }}" class="btn btn-ghost btn-sm">{{ __('site.materials.nav_title') }}</a>
 </div>
 
-@if (session('success'))<div class="alert alert-success">{{ session('success') }}</div>@endif
-@if ($errors->any())<div class="alert alert-error">{{ $errors->first() }}</div>@endif
-
 <div class="subcats">
   <a href="{{ route('vendor.materials.index') }}" class="chip {{ !request('type') ? 'on' : '' }}">{{ __('site.common.all') }}</a>
   @foreach (\App\Models\MaterialRequest::TYPES as $type)

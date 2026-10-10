@@ -24,8 +24,6 @@
   </div>
 </div>
 
-@if (session('success'))<div class="alert alert-success">{{ session('success') }}</div>@endif
-
 <div class="grid-2">
   <div class="panel">
     <div class="panel-head"><h3>{{ __('site.materials.admin_details') }}</h3></div>

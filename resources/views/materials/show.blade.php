@@ -40,9 +40,6 @@
         <div class="panel-head"><h3>{{ __('site.materials.offer_box_title') }}</h3></div>
         <p style="font-size:13px; color:var(--ink-soft); margin-bottom:16px;">{{ __('site.materials.offer_box_text') }}</p>
 
-        @if (session('success'))
-          <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
         @if ($errors->any())
           <div class="alert alert-error">{{ $errors->first() }}</div>
         @endif

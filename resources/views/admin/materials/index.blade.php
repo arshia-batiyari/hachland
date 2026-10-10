@@ -13,8 +13,6 @@
   </div>
 </div>
 
-@if (session('success'))<div class="alert alert-success">{{ session('success') }}</div>@endif
-
 <div class="subcats">
   <a href="{{ route('admin.materials.index') }}" class="chip {{ !request('status') ? 'on' : '' }}">{{ __('site.panel.all') }}</a>
   <a href="{{ route('admin.materials.index', ['status'=>'pending']) }}" class="chip {{ request('status')=='pending' ? 'on' : '' }}">{{ __('site.status.property.pending') }}</a>
