@@ -94,6 +94,14 @@ class Booth extends Model
         return $query->where('status', 'pending');
     }
 
+    /** غرفه‌های تأییدشده‌ی دسته مصالح ساختمانی و زیردسته‌هایش. */
+    public function scopeMaterialSuppliers($query)
+    {
+        return $query->approved()->whereHas('categories', function ($q) {
+            $q->where('slug', 'like', 'building-%');
+        });
+    }
+
     public function getLocalizedNameAttribute(): string
     {
         return $this->name[app()->getLocale()] ?? $this->name['fa'] ?? '';

@@ -21,6 +21,11 @@
     @php $pendingVideos = \App\Models\Product::where('video_status', 'pending')->count(); @endphp
     @if ($pendingVideos)<span class="side-count">{{ $pendingVideos }}</span>@endif
   </a>
+  <a href="{{ route('admin.materials.index') }}" class="side-link {{ request()->routeIs('admin.materials.*') ? 'on' : '' }}">
+    <span class="lft">🏗️ {{ __('site.sidebar.material_requests') }}</span>
+    @php $pendingMaterials = \App\Models\MaterialRequest::pending()->count(); @endphp
+    @if ($pendingMaterials)<span class="side-count">{{ $pendingMaterials }}</span>@endif
+  </a>
   <a href="{{ route('admin.property-requests.index') }}" class="side-link {{ request()->routeIs('admin.property-requests.*') ? 'on' : '' }}">
     <span class="lft">🔍 {{ __('site.sidebar.property_requests') }}</span>
     @php $pendingPropertyRequests = \App\Models\PropertyRequest::pending()->count(); @endphp

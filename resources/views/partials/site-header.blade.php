@@ -14,6 +14,7 @@
   <a href="{{ route('home') }}#categories">{{ __('site.nav.categories') }}</a>
   <a href="{{ route('home') }}#booths" class="{{ request()->routeIs('booth.show') ? 'on' : '' }}">{{ __('site.nav.booths') }}</a>
   <a href="{{ route('properties.index') }}" class="{{ request()->routeIs('properties.*') ? 'on' : '' }}">{{ __('site.nav.properties') }}</a>
+  <a href="{{ route('materials.index') }}" class="{{ request()->routeIs('materials.*') ? 'on' : '' }}">{{ __('site.nav.materials') }}</a>
   <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'on' : '' }}">{{ __('site.nav.about') }}</a>
   <a href="#">{{ __('site.nav.contact') }}</a>
 

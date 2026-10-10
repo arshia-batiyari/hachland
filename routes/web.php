@@ -51,6 +51,21 @@ Route::post('/property-requests/{propertyRequest}/offer', [\App\Http\Controllers
     ->middleware('throttle:6,1')
     ->name('property-requests.offer.store');
 
+/*
+|--------------------------------------------------------------------------
+| تأمین مصالح — نیاز پروژه (سیمان، میلگرد، تهاتر) و غرفه‌های مصالح
+|--------------------------------------------------------------------------
+*/
+Route::get('/materials', [\App\Http\Controllers\MaterialRequestController::class, 'index'])->name('materials.index');
+Route::get('/materials/create', [\App\Http\Controllers\MaterialRequestController::class, 'create'])->name('materials.create');
+Route::post('/materials', [\App\Http\Controllers\MaterialRequestController::class, 'store'])
+    ->middleware('throttle:6,1')
+    ->name('materials.store');
+Route::get('/materials/{materialRequest}', [\App\Http\Controllers\MaterialRequestController::class, 'show'])->name('materials.show');
+Route::post('/materials/{materialRequest}/offers', [\App\Http\Controllers\MaterialOfferController::class, 'store'])
+    ->middleware('throttle:6,1')
+    ->name('materials.offers.store');
+
 // SEO
 Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
 
@@ -107,6 +122,8 @@ Route::middleware(['auth', 'role:vendor'])->prefix('vendor')->name('vendor.')->g
     Route::get('/contract/{contract}', [\App\Http\Controllers\Vendor\ContractController::class, 'show'])->name('contract.show');
     Route::post('/contract/{contract}/sign', [\App\Http\Controllers\Vendor\ContractController::class, 'sign'])->name('contract.sign');
     Route::get('/contract/{contract}/print', [\App\Http\Controllers\Vendor\ContractController::class, 'print'])->name('contract.print');
+
+    Route::get('/materials', [\App\Http\Controllers\Vendor\MaterialRequestController::class, 'index'])->name('materials.index');
 });
 
 /*
@@ -181,6 +198,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/property-requests/{propertyRequest}/approve', [\App\Http\Controllers\Admin\PropertyRequestController::class, 'approve'])->name('property-requests.approve');
     Route::post('/property-requests/{propertyRequest}/reject', [\App\Http\Controllers\Admin\PropertyRequestController::class, 'reject'])->name('property-requests.reject');
     Route::post('/property-requests/offers/{offer}/status', [\App\Http\Controllers\Admin\PropertyRequestOfferController::class, 'updateStatus'])->name('property-requests.offers.status');
+
+    Route::get('/materials', [\App\Http\Controllers\Admin\MaterialRequestController::class, 'index'])->name('materials.index');
+    Route::get('/materials/{materialRequest}', [\App\Http\Controllers\Admin\MaterialRequestController::class, 'show'])->name('materials.show');
+    Route::post('/materials/{materialRequest}/approve', [\App\Http\Controllers\Admin\MaterialRequestController::class, 'approve'])->name('materials.approve');
+    Route::post('/materials/{materialRequest}/reject', [\App\Http\Controllers\Admin\MaterialRequestController::class, 'reject'])->name('materials.reject');
+    Route::post('/materials/offers/{offer}/status', [\App\Http\Controllers\Admin\MaterialOfferController::class, 'updateStatus'])->name('materials.offers.status');
 
     // سفارش‌ها — بررسی و تأیید دستی پرداخت کارت‌به‌کارت
     Route::get('/orders', [\App\Http\Controllers\Admin\OrderController::class, 'index'])->name('orders.index');

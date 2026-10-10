@@ -108,6 +108,17 @@
       {{ __('site.home.property_request_teaser') }}
       <a href="{{ route('property-requests.create') }}" style="color:var(--primary); font-weight:700;">{{ __('site.home.property_request_teaser_link') }}</a>
     </p>
+    <div class="property-promo" style="margin-top:18px;">
+      <div class="property-promo-icon">🏗️</div>
+      <div class="property-promo-text">
+        <h2>{{ __('site.home.materials_promo_heading') }}</h2>
+        <p>{{ __('site.home.materials_promo_sub') }}</p>
+      </div>
+      <div class="property-promo-actions">
+        <a href="{{ route('materials.index') }}" class="btn btn-accent">{{ __('site.home.materials_promo_browse') }}</a>
+        <a href="{{ route('materials.create') }}" class="btn btn-ghost-light">{{ __('site.home.materials_promo_post') }}</a>
+      </div>
+    </div>
   </div>
 </section>
 
