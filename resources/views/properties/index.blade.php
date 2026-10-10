@@ -68,25 +68,9 @@
       @if ($properties->isEmpty())
         <div class="empty-state"><p>{{ __('site.properties.no_results') }}</p></div>
       @else
-        <div class="booth-grid">
+        <div class="listing-grid">
           @foreach ($properties as $property)
-            <a href="{{ route('properties.show', $property) }}" class="booth-card">
-              <div class="booth-media">
-                <img src="{{ $property->first_image_url }}" alt="{{ $property->localized_title }}" class="media-img" loading="lazy">
-                <span class="booth-badge">{{ $property->localized_deal_type }}</span>
-              </div>
-              <div class="booth-body">
-                <div class="booth-top">
-                  <div class="booth-logo">{{ mb_substr($property->localized_title, 0, 1) }}</div>
-                  <div><h3>{{ $property->localized_title }}</h3><span class="cat">{{ $property->localized_property_type }} · {{ $property->city }}</span></div>
-                </div>
-                <p class="booth-desc">{{ \Illuminate\Support\Str::limit($property->localized_description, 70) }}</p>
-                <div class="booth-foot">
-                  <span class="products">{{ $property->area_sqm ? number_format($property->area_sqm).' '.__('site.properties.area_suffix') : '' }}</span>
-                  <span class="pay">{{ $property->price ? number_format($property->price).' '.__('site.common.toman') : __('site.properties.price_on_request') }}</span>
-                </div>
-              </div>
-            </a>
+            @include('partials.property-card')
           @endforeach
         </div>
         <div class="pagination">{{ $properties->links() }}</div>

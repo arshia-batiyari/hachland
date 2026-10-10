@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Booth;
 use App\Models\Category;
+use App\Models\MaterialRequest;
+use App\Models\Product;
+use App\Models\Property;
 
 class HomeController extends Controller
 {
@@ -15,7 +18,7 @@ class HomeController extends Controller
             ->with('categories')
             ->withCount('products')
             ->inRandomOrder()
-            ->limit(6)
+            ->limit(8)
             ->get();
 
         $buildingMaterials = Category::where('slug', 'building-materials')->first();
@@ -27,19 +30,40 @@ class HomeController extends Controller
                 ->whereHas('categories', fn($q) => $q->whereIn('categories.id', $buildingChildIds))
                 ->with('categories')
                 ->withCount('products')
-                ->limit(4)
+                ->limit(8)
                 ->get();
         }
 
-        $discountedProducts = \App\Models\Product::with(['booth','images','category'])->where('status','active')->where('discount_percent','>',0)->inRandomOrder()->limit(8)->get();
-        $randomProducts = \App\Models\Product::with(['booth','images','category'])->where('status','active')->inRandomOrder()->limit(8)->get();
+        $buildingCategoryIds = Category::where('slug', 'like', 'building-%')->pluck('id');
+        $buildingProducts = Product::with(['booth', 'images', 'category'])
+            ->where('status', 'active')
+            ->whereIn('category_id', $buildingCategoryIds)
+            ->latest()
+            ->limit(12)
+            ->get();
+
+        $latestProperties = Property::approved()->latest()->limit(8)->get();
+        $materialRequests = MaterialRequest::approved()->latest()->limit(8)->get();
+
+        $discountedProducts = Product::with(['booth', 'images', 'category'])->where('status', 'active')->where('discount_percent', '>', 0)->inRandomOrder()->limit(12)->get();
+        $randomProducts = Product::with(['booth', 'images', 'category'])->where('status', 'active')->latest()->limit(12)->get();
 
         $stats = [
             'booths' => Booth::approved()->count(),
             'categories' => Category::where('is_active', true)->count(),
-            'products' => \App\Models\Product::where('status', 'active')->count(),
+            'products' => Product::where('status', 'active')->count(),
         ];
 
-        return view('home.index', compact('categories', 'featuredBooths', 'buildingBooths', 'discountedProducts', 'randomProducts', 'stats'));
+        return view('home.index', compact(
+            'categories',
+            'featuredBooths',
+            'buildingBooths',
+            'buildingProducts',
+            'latestProperties',
+            'materialRequests',
+            'discountedProducts',
+            'randomProducts',
+            'stats'
+        ));
     }
 }

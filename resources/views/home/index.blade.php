@@ -88,190 +88,205 @@
   </div>
 </section>
 
-{{-- ---------- PROPERTY / LAND PROMO — عمداً همین‌جا، بالای صفحه، نه فقط تو
-     هدر یا فوتر، چون قرار بود هر کسی زمین/ملک داره یا دنبالشه، بدون گشتن
-     زود ببینتش --}}
-<section class="section" style="padding-top:0;">
+{{-- ---------- املاک و ساخت‌وساز: کاشی خدمات، مثل ردیف سرویس صفحهٔ اصلی مرجع ---------- --}}
+<section class="section home-block" id="real-estate">
   <div class="wrap">
-    <div class="property-promo">
-      <div class="property-promo-icon">🏡</div>
-      <div class="property-promo-text">
-        <h2>{{ __('site.home.property_promo_heading') }}</h2>
-        <p>{{ __('site.home.property_promo_sub') }}</p>
-      </div>
-      <div class="property-promo-actions">
-        <a href="{{ route('properties.index') }}" class="btn btn-accent">{{ __('site.home.property_promo_browse') }}</a>
-        <a href="{{ route('register.landowner') }}" class="btn btn-ghost-light">{{ __('site.home.property_promo_register') }}</a>
+    <div class="section-head">
+      <div>
+        <h2>{{ __('site.home.services_heading') }}</h2>
+        <p>{{ __('site.home.services_sub') }}</p>
       </div>
     </div>
-    <p style="text-align:center; font-size:13px; color:var(--ink-soft); margin-top:14px;">
-      {{ __('site.home.property_request_teaser') }}
-      <a href="{{ route('property-requests.create') }}" style="color:var(--primary); font-weight:700;">{{ __('site.home.property_request_teaser_link') }}</a>
-    </p>
-    <div class="property-promo" style="margin-top:18px;">
-      <div class="property-promo-icon">🏗️</div>
-      <div class="property-promo-text">
-        <h2>{{ __('site.home.materials_promo_heading') }}</h2>
-        <p>{{ __('site.home.materials_promo_sub') }}</p>
-      </div>
-      <div class="property-promo-actions">
-        <a href="{{ route('materials.index') }}" class="btn btn-accent">{{ __('site.home.materials_promo_browse') }}</a>
-        <a href="{{ route('materials.create') }}" class="btn btn-ghost-light">{{ __('site.home.materials_promo_post') }}</a>
-      </div>
+    <div class="service-grid">
+      <a href="{{ route('properties.index') }}" class="service-tile">
+        <span class="service-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 12 4l8 6.5"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/></svg></span>
+        <b>{{ __('site.home.service_properties') }}</b>
+        <span>{{ __('site.home.service_properties_sub') }}</span>
+      </a>
+      <a href="{{ route('property-requests.index') }}" class="service-tile">
+        <span class="service-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="m20 20-3.5-3.5"/><path d="M11 8.5v5M8.5 11h5"/></svg></span>
+        <b>{{ __('site.home.service_requests') }}</b>
+        <span>{{ __('site.home.service_requests_sub') }}</span>
+      </a>
+      <a href="{{ route('register.landowner') }}" class="service-tile">
+        <span class="service-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/><rect x="3" y="3" width="18" height="18" rx="4"/></svg></span>
+        <b>{{ __('site.home.service_list') }}</b>
+        <span>{{ __('site.home.service_list_sub') }}</span>
+      </a>
+      <a href="{{ route('materials.index') }}" class="service-tile">
+        <span class="service-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21v-6h6v6"/></svg></span>
+        <b>{{ __('site.home.service_materials') }}</b>
+        <span>{{ __('site.home.service_materials_sub') }}</span>
+      </a>
+      <a href="{{ route('category.show', 'building-materials') }}" class="service-tile">
+        <span class="service-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8l9 5 9-5Z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></span>
+        <b>{{ __('site.home.service_buy') }}</b>
+        <span>{{ __('site.home.service_buy_sub') }}</span>
+      </a>
+      <a href="{{ route('materials.create') }}" class="service-tile">
+        <span class="service-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8l1 3H7l1-3Z"/><path d="M6 7h12v13H6z"/><path d="M12 11v6M9 14h6"/></svg></span>
+        <b>{{ __('site.home.service_post') }}</b>
+        <span>{{ __('site.home.service_post_sub') }}</span>
+      </a>
     </div>
   </div>
 </section>
 
+@if($latestProperties->isNotEmpty())
+<section class="section home-block">
+  <div class="wrap">
+    <div class="section-head">
+      <div><h2>{{ __('site.home.latest_properties_heading') }}</h2><p>{{ __('site.home.latest_properties_sub') }}</p></div>
+      <a href="{{ route('properties.index') }}" class="more-link">{{ __('site.common.view_all') }}</a>
+    </div>
+    @include('partials.swiper-open')
+      @foreach($latestProperties as $property)
+        <div class="h-swiper-item">@include('partials.property-card')</div>
+      @endforeach
+    @include('partials.swiper-close')
+  </div>
+</section>
+@endif
+
+@if($buildingProducts->isNotEmpty())
+<section class="section home-block product-showcase">
+  <div class="wrap">
+    <div class="section-head">
+      <div><h2>{{ __('site.home.building_products_heading') }}</h2><p>{{ __('site.home.building_products_sub') }}</p></div>
+      <a href="{{ route('category.show', 'building-materials') }}" class="more-link">{{ __('site.common.view_all') }}</a>
+    </div>
+    @include('partials.swiper-open')
+      @foreach($buildingProducts as $product)
+        <div class="h-swiper-item">@include('partials.product-card')</div>
+      @endforeach
+    @include('partials.swiper-close')
+  </div>
+</section>
+@endif
+
+@if($materialRequests->isNotEmpty())
+<section class="section home-block">
+  <div class="wrap">
+    <div class="section-head">
+      <div><h2>{{ __('site.home.material_requests_heading') }}</h2><p>{{ __('site.home.material_requests_sub') }}</p></div>
+      <a href="{{ route('materials.index') }}" class="more-link">{{ __('site.common.view_all') }}</a>
+    </div>
+    @include('partials.swiper-open')
+      @foreach($materialRequests as $item)
+        <div class="h-swiper-item">@include('partials.material-card')</div>
+      @endforeach
+    @include('partials.swiper-close')
+  </div>
+</section>
+@endif
+
 {{-- ---------- FEATURED BOOTHS ---------- --}}
-<section class="section" id="booths" style="padding-top:0;">
+<section class="section home-block" id="booths">
   <div class="wrap">
     <div class="section-head">
       <div><h2>{{ __('site.home.featured_booths_heading') }}</h2><p>{{ __('site.home.featured_booths_sub') }}</p></div>
       <a href="{{ route('category.show', $categories->first()?->slug) }}" class="more-link">{{ __('site.home.all_booths') }}</a>
     </div>
-    <div class="booth-grid">
+    @include('partials.swiper-open')
       @foreach ($featuredBooths as $booth)
-        <a href="{{ route('booth.show', $booth->slug) }}" class="booth-card">
-          <div class="booth-media">
-            <img src="{{ $booth->banner_url }}" alt="{{ $booth->localized_name }}" class="media-img" loading="lazy">
-            @if ($booth->online_payment_enabled)
-              <span class="booth-badge">{{ __('site.common.online_payment') }}</span>
-            @endif
-          </div>
-          <div class="booth-body">
-            <div class="booth-top">
-              <div class="booth-logo">
-                @if ($booth->logo_url)<img src="{{ $booth->logo_url }}" alt="{{ $booth->localized_name }}">@else{{ mb_substr($booth->localized_name, 0, 1) }}@endif
-              </div>
-              <div><h3>{{ $booth->localized_name }}</h3><span class="cat">{{ $booth->categories->first()?->localized_name }}</span></div>
-            </div>
-            <p class="booth-desc">{{ \Illuminate\Support\Str::limit($booth->description[app()->getLocale()] ?? $booth->description['fa'] ?? '', 70) }}</p>
-            <div class="booth-foot">
-              <span class="products">{{ $booth->products_count }} {{ __('site.common.product') }}</span>
+        <div class="h-swiper-item">
+          <a href="{{ route('booth.show', $booth->slug) }}" class="booth-card">
+            <div class="booth-media">
+              <img src="{{ $booth->banner_url }}" alt="{{ $booth->localized_name }}" class="media-img" loading="lazy">
               @if ($booth->online_payment_enabled)
-                <span class="pay">{{ __('site.common.buy_direct') }}</span>
+                <span class="booth-badge">{{ __('site.common.online_payment') }}</span>
               @endif
             </div>
-          </div>
-        </a>
+            <div class="booth-body">
+              <div class="booth-top">
+                <div class="booth-logo">
+                  @if ($booth->logo_url)<img src="{{ $booth->logo_url }}" alt="{{ $booth->localized_name }}">@else{{ mb_substr($booth->localized_name, 0, 1) }}@endif
+                </div>
+                <div><h3>{{ $booth->localized_name }}</h3><span class="cat">{{ $booth->categories->first()?->localized_name }}</span></div>
+              </div>
+              <p class="booth-desc">{{ \Illuminate\Support\Str::limit($booth->description[app()->getLocale()] ?? $booth->description['fa'] ?? '', 70) }}</p>
+              <div class="booth-foot">
+                <span class="products">{{ $booth->products_count }} {{ __('site.common.product') }}</span>
+                @if ($booth->online_payment_enabled)
+                  <span class="pay">{{ __('site.common.buy_direct') }}</span>
+                @endif
+              </div>
+            </div>
+          </a>
+        </div>
       @endforeach
-    </div>
+    @include('partials.swiper-close')
   </div>
 </section>
 
-{{-- ---------- BUILDING MATERIALS ---------- --}}
+{{-- ---------- BUILDING MATERIALS BOOTHS ---------- --}}
 @if($buildingBooths->isNotEmpty())
-<section class="section" style="padding-top:0;">
+<section class="section home-block">
   <div class="wrap">
     <div class="section-head">
       <div><h2>{{ __('site.home.building_materials_heading') }}</h2><p>{{ __('site.home.building_materials_sub') }}</p></div>
       <a href="{{ route('category.show', 'building-materials') }}" class="more-link">{{ __('site.common.view_all') }}</a>
     </div>
-    <div class="booth-grid">
+    @include('partials.swiper-open')
       @foreach ($buildingBooths as $booth)
-        <a href="{{ route('booth.show', $booth->slug) }}" class="booth-card">
-          <div class="booth-media">
-            <img src="{{ $booth->banner_url }}" alt="{{ $booth->localized_name }}" class="media-img" loading="lazy">
-            @if ($booth->online_payment_enabled)
-              <span class="booth-badge">{{ __('site.common.online_payment') }}</span>
-            @endif
-          </div>
-          <div class="booth-body">
-            <div class="booth-top">
-              <div class="booth-logo">
-                @if ($booth->logo_url)<img src="{{ $booth->logo_url }}" alt="{{ $booth->localized_name }}">@else{{ mb_substr($booth->localized_name, 0, 1) }}@endif
-              </div>
-              <div><h3>{{ $booth->localized_name }}</h3><span class="cat">{{ $booth->categories->first()?->localized_name }}</span></div>
-            </div>
-            <p class="booth-desc">{{ \Illuminate\Support\Str::limit($booth->description[app()->getLocale()] ?? $booth->description['fa'] ?? '', 70) }}</p>
-            <div class="booth-foot">
-              <span class="products">{{ $booth->products_count }} {{ __('site.common.product') }}</span>
+        <div class="h-swiper-item">
+          <a href="{{ route('booth.show', $booth->slug) }}" class="booth-card">
+            <div class="booth-media">
+              <img src="{{ $booth->banner_url }}" alt="{{ $booth->localized_name }}" class="media-img" loading="lazy">
               @if ($booth->online_payment_enabled)
-                <span class="pay">{{ __('site.common.buy_direct') }}</span>
+                <span class="booth-badge">{{ __('site.common.online_payment') }}</span>
               @endif
             </div>
-          </div>
-        </a>
+            <div class="booth-body">
+              <div class="booth-top">
+                <div class="booth-logo">
+                  @if ($booth->logo_url)<img src="{{ $booth->logo_url }}" alt="{{ $booth->localized_name }}">@else{{ mb_substr($booth->localized_name, 0, 1) }}@endif
+                </div>
+                <div><h3>{{ $booth->localized_name }}</h3><span class="cat">{{ $booth->categories->first()?->localized_name }}</span></div>
+              </div>
+              <p class="booth-desc">{{ \Illuminate\Support\Str::limit($booth->description[app()->getLocale()] ?? $booth->description['fa'] ?? '', 70) }}</p>
+              <div class="booth-foot">
+                <span class="products">{{ $booth->products_count }} {{ __('site.common.product') }}</span>
+                @if ($booth->online_payment_enabled)
+                  <span class="pay">{{ __('site.common.buy_direct') }}</span>
+                @endif
+              </div>
+            </div>
+          </a>
+        </div>
       @endforeach
-    </div>
+    @include('partials.swiper-close')
   </div>
 </section>
 @endif
 
 {{-- ---------- PRODUCTS SHOWCASE ---------- --}}
 @if($discountedProducts->isNotEmpty())
-<section class="section product-showcase special-showcase">
+<section class="section home-block product-showcase special-showcase">
   <div class="wrap">
     <div class="section-head">
       <div><h2>{{ __('site.home.special_offers_heading') }}</h2><p>{{ __('site.home.special_offers_sub') }}</p></div>
     </div>
-    <div class="product-grid enhanced-grid">
+    @include('partials.swiper-open')
       @foreach($discountedProducts as $product)
-        <div class="product-card product-card-advanced" data-product-id="{{ $product->id }}" data-product-slug="{{ $product->slug }}">
-          <div class="product-card-media">
-            <img src="{{ $product->image_url }}" alt="{{ $product->localized_name }}" loading="lazy">
-            @if(($product->discount_percent ?? 0) > 0)
-              <span class="discount-badge">{{ __('site.common.discount_off', ['percent' => $product->discount_percent]) }}</span>
-            @endif
-          </div>
-          <div class="product-card-content">
-            <a href="{{ route('product.show', $product) }}" style="font-size:10.5px; color:var(--accent); font-weight:600; text-transform:uppercase; letter-spacing:.3px; text-decoration:none;">{{ $product->booth->localized_name }}</a>
-            <b>{{ $product->localized_name }}</b>
-            <small>{{ $product->category?->localized_name }}</small>
-            <div class="product-price-stack">
-              @if(($product->discount_percent ?? 0) > 0)
-                <del>{{ number_format($product->price) }} {{ __('site.common.toman') }}</del>
-              @endif
-              <strong>{{ number_format($product->final_price) }} {{ __('site.common.toman') }}</strong>
-            </div>
-            @if($product->stock > 0 && $product->booth->online_payment_enabled)
-              <form action="{{ route('product.cart.ajax', $product) }}" method="POST" class="js-add-to-cart-form" data-product-name="{{ $product->localized_name }}" style="position:relative; z-index:2; margin-top:6px;">
-                @csrf
-                <input type="hidden" name="quantity" value="1">
-                <button type="submit" class="btn btn-primary btn-sm" style="width:100%; font-size:11px; padding:6px 12px;">{{ __('site.common.add_to_cart') }}</button>
-              </form>
-            @endif
-            <a href="{{ route('product.show', $product) }}" style="display:inline-block; margin-top:6px; font-size:11px; font-weight:600; color:var(--primary); text-decoration:none;">{{ __('site.common.view_details') }}</a>
-          </div>
-        </div>
+        <div class="h-swiper-item">@include('partials.product-card')</div>
       @endforeach
-    </div>
+    @include('partials.swiper-close')
   </div>
 </section>
 @endif
 
 @if($randomProducts->isNotEmpty())
-<section class="section product-showcase curated-showcase" style="padding-top:0">
+<section class="section home-block product-showcase curated-showcase">
   <div class="wrap">
     <div class="section-head">
       <div><h2>{{ __('site.home.curated_products_heading') }}</h2><p>{{ __('site.home.curated_products_sub') }}</p></div>
     </div>
-    <div class="product-grid enhanced-grid">
+    @include('partials.swiper-open')
       @foreach($randomProducts as $product)
-        <div class="product-card product-card-advanced" data-product-id="{{ $product->id }}" data-product-slug="{{ $product->slug }}">
-          <div class="product-card-media">
-            <img src="{{ $product->image_url }}" alt="{{ $product->localized_name }}" loading="lazy">
-            <span class="product-chip">{{ $product->stock > 0 ? __('site.common.available') : __('site.common.unavailable') }}</span>
-          </div>
-          <div class="product-card-content">
-            <a href="{{ route('product.show', $product) }}" style="font-size:10.5px; color:var(--accent); font-weight:600; text-transform:uppercase; letter-spacing:.3px; text-decoration:none;">{{ $product->booth->localized_name }}</a>
-            <b>{{ $product->localized_name }}</b>
-            <small>{{ $product->category?->localized_name }}</small>
-            <div class="product-price-stack">
-              <strong>{{ number_format($product->final_price) }} {{ __('site.common.toman') }}</strong>
-            </div>
-            @if($product->stock > 0 && $product->booth->online_payment_enabled)
-              <form action="{{ route('product.cart.ajax', $product) }}" method="POST" class="js-add-to-cart-form" data-product-name="{{ $product->localized_name }}" style="position:relative; z-index:2; margin-top:6px;">
-                @csrf
-                <input type="hidden" name="quantity" value="1">
-                <button type="submit" class="btn btn-primary btn-sm" style="width:100%; font-size:11px; padding:6px 12px;">{{ __('site.common.add_to_cart') }}</button>
-              </form>
-            @endif
-            <a href="{{ route('product.show', $product) }}" style="display:inline-block; margin-top:6px; font-size:11px; font-weight:600; color:var(--primary); text-decoration:none;">{{ __('site.common.view_details') }}</a>
-          </div>
-        </div>
+        <div class="h-swiper-item">@include('partials.product-card')</div>
       @endforeach
-    </div>
+    @include('partials.swiper-close')
   </div>
 </section>
 @endif

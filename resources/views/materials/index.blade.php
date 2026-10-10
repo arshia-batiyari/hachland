@@ -74,24 +74,9 @@
       @if ($requests->isEmpty())
         <div class="empty-state"><p>{{ __('site.materials.no_results') }}</p></div>
       @else
-        <div class="booth-grid">
+        <div class="listing-grid">
           @foreach ($requests as $item)
-            <a href="{{ route('materials.show', $item) }}" class="booth-card">
-              <div class="booth-body" style="padding-top:20px;">
-                <div class="booth-top">
-                  <div class="booth-logo">🏗️</div>
-                  <div>
-                    <h3>{{ $item->localized_title }}</h3>
-                    <span class="cat">{{ $item->localized_type }} @if($item->city) · {{ $item->city }}@endif</span>
-                  </div>
-                </div>
-                <p class="booth-desc">{{ \Illuminate\Support\Str::limit($item->localized_description ?: $item->quantity_label, 90) }}</p>
-                <div class="booth-foot">
-                  <span class="products">{{ $item->quantity_label }}</span>
-                  <span class="pay">{{ $item->localized_fulfillment }}</span>
-                </div>
-              </div>
-            </a>
+            @include('partials.material-card')
           @endforeach
         </div>
         <div class="pagination">{{ $requests->links() }}</div>
@@ -110,8 +95,10 @@
   @if ($suppliers->isEmpty())
     <div class="empty-state" style="margin-bottom:50px;"><p>{{ __('site.materials.no_suppliers') }}</p></div>
   @else
-    <div class="booth-grid" style="padding-bottom:70px;">
+    <div style="padding-bottom:70px;">
+    @include('partials.swiper-open')
       @foreach ($suppliers as $booth)
+        <div class="h-swiper-item">
         <a href="{{ route('booth.show', $booth->slug) }}" class="booth-card">
           <div class="booth-media">
             <img src="{{ $booth->banner_url }}" alt="{{ $booth->localized_name }}" class="media-img" loading="lazy">
@@ -132,7 +119,9 @@
             </div>
           </div>
         </a>
+        </div>
       @endforeach
+    @include('partials.swiper-close')
     </div>
   @endif
 </div>

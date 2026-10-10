@@ -315,6 +315,59 @@ document.addEventListener('DOMContentLoaded', function() {
 
 @include('partials.pwa-install-banner', ['context' => 'site'])
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('[data-h-swiper]').forEach(function (root) {
+        var track = root.querySelector('.h-swiper-track');
+        var prev = root.querySelector('.h-swiper-prev');
+        var next = root.querySelector('.h-swiper-next');
+        if (!track) return;
+
+        var rtl = getComputedStyle(track).direction === 'rtl';
+        var max0 = track.scrollWidth - track.clientWidth;
+        var mode = 'ltr';
+        if (rtl) {
+            mode = (max0 > 2 && track.scrollLeft > 1) ? 'reverse' : 'negative';
+        }
+
+        function step() {
+            var item = track.querySelector('.h-swiper-item');
+            if (!item) return Math.round(track.clientWidth * 0.8);
+            var styles = getComputedStyle(track);
+            var gap = parseFloat(styles.columnGap || styles.gap) || 16;
+            return Math.round(item.getBoundingClientRect().width + gap);
+        }
+
+        function fromStart() {
+            var max = Math.max(0, track.scrollWidth - track.clientWidth);
+            var left = track.scrollLeft;
+            if (mode === 'ltr') return left;
+            if (mode === 'reverse') return max - left;
+            return Math.abs(left);
+        }
+
+        function update() {
+            var max = Math.max(0, track.scrollWidth - track.clientWidth);
+            var pos = fromStart();
+            var idle = max < 4;
+            if (prev) prev.disabled = idle || pos <= 2;
+            if (next) next.disabled = idle || pos >= max - 2;
+        }
+
+        function scrollDir(dir) {
+            var sign = mode === 'ltr' ? 1 : -1;
+            track.scrollBy({ left: sign * dir * step(), behavior: 'smooth' });
+        }
+
+        if (prev) prev.addEventListener('click', function () { scrollDir(-1); });
+        if (next) next.addEventListener('click', function () { scrollDir(1); });
+        track.addEventListener('scroll', update, { passive: true });
+        window.addEventListener('resize', update);
+        update();
+    });
+});
+</script>
+
 @stack('scripts')
 </body>
 </html>
