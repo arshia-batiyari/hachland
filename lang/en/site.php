@@ -68,6 +68,7 @@ return [
         'stat_main_categories' => 'main categories',
         'stat_listed_products' => 'listed products',
         'categories_heading' => 'Categories',
+        'index_label' => 'Sections',
         'building_materials_heading' => 'Building Materials',
         'building_materials_sub' => 'Cement, brick, stone, ceramic, and installations for construction projects',
         'special_offers_heading' => 'Special Offers',

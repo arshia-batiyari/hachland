@@ -68,6 +68,7 @@ return [
         'stat_main_categories' => 'دسته‌بندی اصلی',
         'stat_listed_products' => 'محصول ثبت‌شده',
         'categories_heading' => 'دسته‌بندی‌ها',
+        'index_label' => 'دسته‌ها',
         'building_materials_heading' => 'مصالح ساختمانی',
         'building_materials_sub' => 'سیمان، آجر، سنگ، سرامیک و تاسیسات برای پروژه‌های ساختمانی',
         'special_offers_heading' => 'پیشنهادهای ویژه',

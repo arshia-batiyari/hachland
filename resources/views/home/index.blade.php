@@ -39,52 +39,17 @@
       </div>
     </div>
 
-    <div class="hero-visual">
-      <div class="hero-mosaic" id="heroMosaic">
-        @foreach ($categories->take(5) as $cat)
-          <a href="{{ route('category.show', $cat->slug) }}" class="hero-tile hero-tile-{{ $loop->index + 1 }}">
-            <img src="{{ $cat->hero_image_url }}" alt="{{ $cat->localized_name }}" loading="lazy">
-            <span class="hero-tile-overlay"></span>
-            <div class="hero-tile-content">
-              <span class="hero-tile-icon">{{ $cat->icon ?? '📦' }}</span>
-              <strong>{{ $cat->localized_name }}</strong>
-              <small>{{ $cat->display_booths_count }} {{ __('site.common.booth') }}</small>
-            </div>
+    <nav class="market-index" id="categories" aria-label="{{ __('site.home.categories_heading') }}">
+      <p class="market-index-kicker">{{ __('site.home.index_label') }}</p>
+      <div class="market-index-list">
+        @foreach ($categories as $cat)
+          <a href="{{ route('category.show', $cat->slug) }}">
+            <span>{{ $cat->localized_name }}</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg>
           </a>
         @endforeach
       </div>
-      <div class="hero-mosaic-dots" id="heroMosaicDots"></div>
-    </div>
-  </div>
-</section>
-
-{{-- آمار — یک‌بار، شکیل، زیر هیرو --}}
-<section class="hero-stats-band">
-  <div class="wrap">
-    <div class="hero-stats-grid" id="heroStatsGrid">
-      <div class="hero-stat stat-booths"><div class="hero-stat-main"><span class="hero-stat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 4.5 4h15L21 9.5"/><path d="M3 9.5a2.5 2.5 0 0 0 5 0 2.5 2.5 0 0 0 5 0 2.5 2.5 0 0 0 5 0 2.5 2.5 0 0 0 5 0"/><path d="M5 9.5V20h14V9.5"/><path d="M9.5 20v-5.5h5V20"/></svg></span><b data-count="{{ $stats['booths'] }}" data-suffix="+">0</b></div><span>{{ __('site.home.stat_active_booths') }}</span></div>
-      <div class="hero-stat stat-products"><div class="hero-stat-main"><span class="hero-stat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8l9 5 9-5Z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></span><b data-count="{{ $stats['products'] }}" data-suffix="+">0</b></div><span>{{ __('site.home.stat_listed_products') }}</span></div>
-      <div class="hero-stat stat-categories"><div class="hero-stat-main"><span class="hero-stat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></span><b data-count="{{ $stats['categories'] }}">0</b></div><span>{{ __('site.home.stat_main_categories') }}</span></div>
-    </div>
-  </div>
-</section>
-
-{{-- ---------- CATEGORIES ---------- --}}
-<section class="section" id="categories">
-  <div class="wrap">
-    <div class="section-head">
-      <div><h2>{{ __('site.home.categories_heading') }}</h2><p>{{ __('site.home.categories_sub') }}</p></div>
-      <a href="{{ route('category.show', $categories->first()?->slug) }}" class="more-link">{{ __('site.home.all_booths') }}</a>
-    </div>
-    <div class="cat-rail">
-      @foreach ($categories as $cat)
-        <a href="{{ route('category.show', $cat->slug) }}" class="cat-item">
-          <div class="cat-icon">{{ $cat->icon ?? '📦' }}</div>
-          <b>{{ $cat->localized_name }}</b>
-          <span>{{ $cat->display_booths_count }} {{ __('site.common.booth') }}</span>
-        </a>
-      @endforeach
-    </div>
+    </nav>
   </div>
 </section>
 
@@ -278,101 +243,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // ---------- اسلاید خودکار موزاییک دسته‌بندی‌ها تو موبایل ----------
-    var mosaic = document.getElementById('heroMosaic');
-    var dotsWrap = document.getElementById('heroMosaicDots');
-    if (!mosaic) return;
-
-    var cards = Array.prototype.slice.call(mosaic.children);
-    if (cards.length < 2) return;
-
-    var currentIndex = 0;
-    var userInteracting = false;
-    var resumeTimer = null;
-
-    // نقطه‌های زیر کاروسل — نشون می‌دن کاربر الان رو کدوم اسلایده
-    cards.forEach(function () {
-        var dot = document.createElement('span');
-        dotsWrap.appendChild(dot);
-    });
-    var dots = Array.prototype.slice.call(dotsWrap.children);
-
-    function setActiveDot(index) {
-        dots.forEach(function (d, i) { d.classList.toggle('active', i === index); });
-        cards.forEach(function (c, i) { c.classList.toggle('is-active', i === index); });
-    }
-    setActiveDot(0);
-
-    // با IntersectionObserver می‌فهمیم کدوم کارت الان واقعاً جلوی چشمه —
-    // چه با اسکرول خودکار جابه‌جا بشه چه با سوایپ دستی کاربر، دقیق کار می‌کنه
-    var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-            if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
-                currentIndex = cards.indexOf(entry.target);
-                setActiveDot(currentIndex);
-            }
-        });
-    }, { root: mosaic, threshold: [0.6] });
-    cards.forEach(function (c) { observer.observe(c); });
-
-    function pauseAutoplay() {
-        userInteracting = true;
-        clearTimeout(resumeTimer);
-        resumeTimer = setTimeout(function () { userInteracting = false; }, 4000);
-    }
-    mosaic.addEventListener('touchstart', pauseAutoplay, { passive: true });
-    mosaic.addEventListener('pointerdown', pauseAutoplay);
-
-    // مهم: اسلاید خودکار فقط وقتی خود کاروسل واقعاً تو دید کاربره باید کار کنه.
-    // بدون این چک، وقتی کاربر پایین‌تر از هیرو اسکرول کرده، فراخوانی
-    // scrollIntoView سعی می‌کنه کارت رو به هر قیمتی نشون بده و کل صفحه رو
-    // به‌زور می‌کشه بالا — دقیقاً همون باگی که کاربر گزارش داد.
-    var heroVisibleInPage = false;
-    var pageVisibilityObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-            heroVisibleInPage = entry.isIntersecting;
-        });
-    }, { threshold: 0.4 });
-    pageVisibilityObserver.observe(mosaic);
-
-    setInterval(function () {
-        if (userInteracting) return;
-        if (!heroVisibleInPage) return;
-        if (window.innerWidth > 680) return; // فقط تو موبایل که به‌صورت کاروسل نمایش داده می‌شه
-        var nextIndex = (currentIndex + 1) % cards.length;
-        cards[nextIndex].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
-    }, 3000);
-
-    // ---------- انیمیشن شمارش اعداد نوار آمار، وقتی وارد دید کاربر می‌شه ----------
-    var statsGrid = document.getElementById('heroStatsGrid');
-    if (statsGrid) {
-        var statNumbers = statsGrid.querySelectorAll('b[data-count]');
-        var statsAnimated = false;
-
-        var statsObserver = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-                if (entry.isIntersecting && !statsAnimated) {
-                    statsAnimated = true;
-                    statNumbers.forEach(function (el) {
-                        var target = parseInt(el.dataset.count, 10) || 0;
-                        var suffix = el.dataset.suffix || '';
-                        var start = performance.now();
-                        var duration = 900;
-
-                        function tick(now) {
-                            var progress = Math.min((now - start) / duration, 1);
-                            var eased = 1 - Math.pow(1 - progress, 3); // ease-out
-                            el.textContent = Math.round(target * eased).toLocaleString('en-US') + (progress >= 1 ? suffix : '');
-                            if (progress < 1) requestAnimationFrame(tick);
-                        }
-                        requestAnimationFrame(tick);
-                    });
-                    statsObserver.disconnect();
-                }
-            });
-        }, { threshold: 0.4 });
-        statsObserver.observe(statsGrid);
-    }
 });
 </script>
 @endpush
