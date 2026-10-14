@@ -108,9 +108,9 @@
           <form action="{{ route('product.cart.ajax', $product) }}" method="POST" class="js-add-to-cart-form" data-product-name="{{ $product->localized_name }}" style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
             @csrf
             <div style="display:flex; align-items:center; border:1px solid var(--border); border-radius:10px; overflow:hidden;">
-              <button type="button" onclick="this.parentElement.querySelector('input').value = Math.max(1, parseInt(this.parentElement.querySelector('input').value)-1)" style="width:36px; height:36px; border:none; background:var(--bg); cursor:pointer; font-size:16px; font-weight:700; color:var(--ink);">-</button>
-              <input type="number" name="quantity" value="1" min="1" max="{{ $product->stock }}" style="width:50px; height:36px; border:none; border-left:1px solid var(--border); border-right:1px solid var(--border); text-align:center; font-family:inherit; font-size:14px; font-weight:600; background:var(--surface); color:var(--ink); outline:none;">
-              <button type="button" onclick="this.parentElement.querySelector('input').value = Math.min({{ $product->stock }}, parseInt(this.parentElement.querySelector('input').value)+1)" style="width:36px; height:36px; border:none; background:var(--bg); cursor:pointer; font-size:16px; font-weight:700; color:var(--ink);">+</button>
+              <button type="button" onclick="this.parentElement.querySelector('input').value = Math.max(1, parseInt(this.parentElement.querySelector('input').value)-1)" style="width:40px; height:40px; border:none; background:var(--bg); cursor:pointer; font-size:16px; font-weight:700; color:var(--ink);">-</button>
+              <input type="number" name="quantity" value="1" min="1" max="{{ $product->stock }}" style="width:50px; height:40px; border:none; border-left:1px solid var(--border); border-right:1px solid var(--border); text-align:center; font-family:inherit; font-size:16px; font-weight:600; background:var(--surface); color:var(--ink); outline:none;">
+              <button type="button" onclick="this.parentElement.querySelector('input').value = Math.min({{ $product->stock }}, parseInt(this.parentElement.querySelector('input').value)+1)" style="width:40px; height:40px; border:none; background:var(--bg); cursor:pointer; font-size:16px; font-weight:700; color:var(--ink);">+</button>
             </div>
             <button type="submit" class="btn btn-primary">{{ __('site.common.add_to_cart') }}</button>
           </form>
@@ -127,14 +127,14 @@
       @if ($related->isNotEmpty())
       <div style="margin-top:48px;">
         <h4 style="font-size:16px; font-weight:700; margin-bottom:16px;">{{ __('site.common.similar_products') }}</h4>
-        <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:14px;">
+        <div class="similar-grid">
           @foreach ($related as $r)
-            <a href="{{ route('product.show', $r) }}" style="display:flex; justify-content:space-between; align-items:center; padding:14px; border:1px solid var(--border); border-radius:var(--radius-sm); font-size:13px; background:var(--surface); transition:all 0.2s; text-decoration:none;">
+            <a href="{{ route('product.show', $r) }}" class="similar-card">
               <div>
-                <span style="font-weight:600;">{{ $r->localized_name }}</span><br>
-                <small style="color:var(--ink-soft);">{{ $r->booth->localized_name }}</small>
+                <span>{{ $r->localized_name }}</span>
+                <small>{{ $r->booth->localized_name }}</small>
               </div>
-              <b style="color:var(--primary-dark); font-size:15px; white-space:nowrap;">{{ number_format($r->price) }} تومان</b>
+              <b>{{ number_format($r->price) }} {{ __('site.common.toman') }}</b>
             </a>
           @endforeach
         </div>
