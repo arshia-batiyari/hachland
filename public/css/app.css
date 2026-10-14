@@ -668,11 +668,22 @@ footer.site::before{content:""; position:absolute; top:0; left:0; right:0; heigh
   .cat-grid{grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px;}
 }
 @media(max-width:720px){
-  .cat-board{padding:2px 0 18px;}
-  .cat-card{min-height:0; padding:18px 10px 14px; border-radius:16px; gap:8px;}
+  .cat-board{padding:0 0 10px;}
+  .cat-grid{gap:8px;}
+  .cat-card{
+    min-height:0;
+    padding:10px 8px 9px;
+    border-radius:14px;
+    gap:4px;
+    border-top-width:2px;
+    background:#fff;
+    box-shadow:0 1px 6px rgba(23, 28, 45, .05);
+  }
   .cat-card small{display:none;}
-  .cat-card-ico{width:52px; height:52px; border-radius:16px; margin-bottom:2px;}
-  .cat-card b{font-size:13.5px;}
+  .cat-card-ico{width:36px; height:36px; border-radius:11px; margin-bottom:1px;}
+  .cat-card-ico svg{width:18px; height:18px;}
+  .cat-emoji{font-size:18px;}
+  .cat-card b{font-size:12px; font-weight:700; line-height:1.35;}
 }
 /* LEFT — copy */
 .hero-copy{ padding: 4px 0; }
