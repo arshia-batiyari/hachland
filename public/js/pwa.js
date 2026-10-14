@@ -7,14 +7,18 @@
   var deferredPrompt = null;
   var banner = null;
 
+  function armInstall() {
+    if (!banner || !deferredPrompt) return;
+    banner.classList.remove('is-manual');
+    banner.classList.add('is-visible');
+  }
+
   // این رویداد گاهی قبل از آماده‌شدن صفحه می‌آید. اگر دیر گوش بدهیم،
-  // کروم آن را مصرف می‌کند و نوار نصب دیگر دیده نمی‌شود.
+  // کروم آن را مصرف می‌کند و دکمهٔ نصب دیگر به پنجرهٔ واقعی وصل نیست.
   window.addEventListener('beforeinstallprompt', function (e) {
     e.preventDefault();
     deferredPrompt = e;
-    if (!banner) return;
-    banner.classList.remove('is-manual');
-    banner.classList.add('is-visible');
+    armInstall();
   });
 
   if ('serviceWorker' in navigator) {
@@ -68,15 +72,21 @@
     var installBtn = banner.querySelector('.js-pwa-install');
     if (installBtn) {
       installBtn.addEventListener('click', function () {
-        if (!deferredPrompt) {
+        // بدون رویداد کروم، prompt وجود ندارد و دکمه هیچ پنجره‌ای باز نمی‌کند.
+        if (!deferredPrompt || typeof deferredPrompt.prompt !== 'function') {
           banner.classList.add('is-manual');
           return;
         }
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.finally(function () {
-          deferredPrompt = null;
-          hideBanner(true);
-        });
+        var waiting = deferredPrompt;
+        deferredPrompt = null;
+        Promise.resolve()
+          .then(function () { return waiting.prompt(); })
+          .then(function () { return waiting.userChoice; })
+          .then(function () { hideBanner(true); })
+          .catch(function () {
+            banner.classList.add('is-manual');
+            banner.classList.add('is-visible');
+          });
       });
     }
 

@@ -71,7 +71,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800&display=swap"></noscript>
 <link rel="stylesheet" href="{{ asset('css/app.css') }}?v={{ @filemtime(public_path('css/app.css')) ?: time() }}">
-<script src="{{ asset('js/pwa.js') }}" defer></script>
+<script src="{{ asset('js/pwa.js') }}?v={{ @filemtime(public_path('js/pwa.js')) ?: time() }}" defer></script>
 
 {{-- کش‌شدن صفحات با Turbo باعث باگ‌های ناسازگار بین ناوبری‌های AJAX‌محور و
      دکمه‌ی بازگشت مرورگر می‌شد (صفحه بعد از back خراب می‌موند تا رفرش دستی)،

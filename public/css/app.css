@@ -1098,6 +1098,7 @@ body{background:var(--bg);}
 .pwa-banner-android-text{display:none;}
 .pwa-banner.is-manual .pwa-banner-default-text{display:none;}
 .pwa-banner.is-manual .pwa-banner-android-text{display:block;}
+.pwa-banner.is-manual .js-pwa-install{display:none;}
 .pwa-banner.is-ios .pwa-banner-android-text{display:none;}
 .pwa-banner.is-ios.is-manual .pwa-banner-default-text{display:none;}
 .pwa-banner-close{ width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,.1); color:#fff; display:flex; align-items:center; justify-content:center; font-size:18px; line-height:1; flex-shrink:0; transition:background var(--transition); }
@@ -1108,6 +1109,7 @@ body{background:var(--bg);}
   .pwa-banner-text{ flex:1; min-width:0; }
   .pwa-banner-actions{ flex-basis:100%; justify-content:stretch; margin-top:4px; }
   .pwa-banner-actions .js-pwa-install{ flex:1; }
+  .pwa-banner.is-manual .pwa-banner-actions{ flex-basis:auto; margin-top:0; }
 }
 
 /* ============ HOME SERVICES + LISTING CARDS + SWIPER ============ */

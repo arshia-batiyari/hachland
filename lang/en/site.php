@@ -861,7 +861,7 @@ return [
         'vendor_subtitle' => 'Products and orders open in one tap',
         'landowner_title' => 'Install the property panel',
         'landowner_subtitle' => 'Listings and requests stay one tap away',
-        'android_instructions' => 'Tap Install. If no window opens, open the browser menu and choose Install app or Add to Home screen.',
+        'android_instructions' => 'Open the browser menu (⋮) and choose Install app or Add to Home screen.',
         'ios_instructions' => 'To install: tap the Safari share button and choose "Add to Home Screen"',
         'install_button' => 'Install',
     ],
