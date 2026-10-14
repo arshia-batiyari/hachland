@@ -69,6 +69,11 @@ return [
         'stat_listed_products' => 'listed products',
         'categories_heading' => 'Categories',
         'index_label' => 'Sections',
+        'category_fallback' => [
+            'agriculture' => 'Fresh, organic, and local produce',
+            'electronics' => 'Phones, gadgets, and appliances',
+            'default' => 'Browse this category',
+        ],
         'building_materials_heading' => 'Building Materials',
         'building_materials_sub' => 'Cement, brick, stone, ceramic, and installations for construction projects',
         'special_offers_heading' => 'Special Offers',

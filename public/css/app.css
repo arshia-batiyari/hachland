@@ -589,46 +589,91 @@ footer.site::before{content:""; position:absolute; top:0; left:0; right:0; heigh
 }
 .hero-home::before{content:none;}
 .hero-shell{
-  display: grid;
-  grid-template-columns: 1.05fr .95fr;
-  gap: 56px;
-  align-items: start;
-  position: relative; z-index:1;
-  padding-bottom: 36px;
-}
-.market-index-kicker{
-  margin: 0 0 10px;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--ink-soft);
-}
-.market-index-kicker::after{
-  content: "";
-  display: block;
-  width: 28px;
-  height: 2px;
-  margin-top: 8px;
-  border-radius: 2px;
-  background: var(--gradient-gold);
-}
-.market-index-list{border-top: 1px solid #ece7dc;}
-.market-index-list a{
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  min-height: 52px;
-  padding: 12px 2px;
-  border-bottom: 1px solid #f1ece3;
-  color: var(--ink);
-  font-size: 17px;
-  font-weight: 700;
-  line-height: 1.45;
+  justify-content: center;
+  position: relative; z-index:1;
+  padding-bottom: 18px;
 }
-.market-index-list a span{min-width: 0;}
-.market-index-list a svg{width: 16px; height: 16px; flex-shrink: 0; color: var(--primary);}
-.market-index-list a:hover{color: var(--gold-deep);}
-[dir="ltr"] .market-index-list a svg{transform: scaleX(-1);}
+.hero-copy{text-align:center;}
+.hero-kicker{justify-content:center;}
+.hero-copy p,.hero-search{margin-inline:auto;}
+.hero-actions{justify-content:center;}
+.cat-board{padding: 4px 0 28px; background: #F4F6FA;}
+.cat-grid{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.cat-card{
+  --tone: #CC9A3D;
+  --tone-soft: #FFF1D6;
+  --tone-wash: #FFFBF4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  min-width: 0;
+  min-height: 176px;
+  padding: 22px 14px 16px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, var(--tone-wash) 0%, #FFFFFF 58%);
+  border: 1px solid rgba(23, 20, 15, .04);
+  border-top: 3px solid var(--tone);
+  box-shadow: 0 8px 22px rgba(23, 28, 45, .06);
+  color: var(--ink);
+  transition: transform .2s var(--ease), box-shadow .2s var(--ease);
+}
+.cat-card:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(23, 28, 45, .1);
+}
+.cat-card:focus-visible{outline: 2px solid var(--tone); outline-offset: 3px;}
+.cat-card-ico{
+  width: 58px;
+  height: 58px;
+  margin-bottom: 6px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  background: var(--tone-soft);
+  color: var(--tone);
+}
+.cat-card-ico svg{width: 28px; height: 28px; display: block;}
+.cat-emoji{font-size: 26px; line-height: 1;}
+.cat-card b{
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.45;
+  letter-spacing: -.2px;
+}
+.cat-card small{
+  color: #8B857C;
+  font-size: 12px;
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.tone-clay{--tone:#E23D24; --tone-soft:#FFD8CC; --tone-wash:#FFF3EE;}
+.tone-teal{--tone:#0C9A88; --tone-soft:#C9F6EF; --tone-wash:#F1FBFA;}
+.tone-violet{--tone:#7A3FE0; --tone-soft:#EAD9FF; --tone-wash:#F8F3FF;}
+.tone-blue{--tone:#2F62D6; --tone-soft:#D5E4FF; --tone-wash:#F3F7FF;}
+.tone-rose{--tone:#D62B78; --tone-soft:#FFD4E7; --tone-wash:#FFF3F8;}
+.tone-green{--tone:#148A45; --tone-soft:#D2F5DF; --tone-wash:#F2FBF5;}
+.tone-amber{--tone:#D97706; --tone-soft:#FFE6B5; --tone-wash:#FFF8EC;}
+.tone-indigo{--tone:#4F46E5; --tone-soft:#DEE0FF; --tone-wash:#F4F5FF;}
+@media(max-width:900px){
+  .cat-grid{grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px;}
+}
+@media(max-width:720px){
+  .cat-board{padding:2px 0 18px;}
+  .cat-card{min-height:0; padding:18px 10px 14px; border-radius:16px; gap:8px;}
+  .cat-card small{display:none;}
+  .cat-card-ico{width:52px; height:52px; border-radius:16px; margin-bottom:2px;}
+  .cat-card b{font-size:13.5px;}
+}
 /* LEFT — copy */
 .hero-copy{ padding: 4px 0; }
 .hero-kicker{
@@ -975,6 +1020,7 @@ tbody tr:last-child td{border-bottom:none;}
 
 body{background:var(--bg);}
 .section:nth-of-type(even){background:transparent;}
+.section.cat-board{background:#F3F5F8;}
 
 /* ============ PWA INSTALL BANNER ============ */
 .pwa-banner{

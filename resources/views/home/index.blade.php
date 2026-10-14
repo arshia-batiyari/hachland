@@ -38,18 +38,44 @@
         <a href="{{ route('register.vendor') }}" class="btn btn-ghost">{{ __('site.nav.register_booth') }}</a>
       </div>
     </div>
+  </div>
+</section>
 
-    <nav class="market-index" id="categories" aria-label="{{ __('site.home.categories_heading') }}">
-      <p class="market-index-kicker">{{ __('site.home.index_label') }}</p>
-      <div class="market-index-list">
-        @foreach ($categories as $cat)
-          <a href="{{ route('category.show', $cat->slug) }}">
-            <span>{{ $cat->localized_name }}</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg>
-          </a>
-        @endforeach
-      </div>
-    </nav>
+<section class="section cat-board" id="categories" aria-label="{{ __('site.home.categories_heading') }}">
+  <div class="wrap">
+    <div class="cat-grid">
+      @foreach ($categories as $cat)
+        @php
+          $tones = ['clay', 'teal', 'violet', 'blue', 'rose', 'green', 'amber', 'indigo'];
+          $tone = match ($cat->slug) {
+            'building-materials' => 'clay',
+            'real-estate' => 'teal',
+            'handicrafts' => 'violet',
+            'automotive' => 'blue',
+            'clothing' => 'rose',
+            'agriculture' => 'green',
+            'food' => 'amber',
+            'electronics' => 'indigo',
+            default => $tones[$loop->index % 8],
+          };
+          $sep = app()->getLocale() === 'en' ? ', ' : '، ';
+          $names = $cat->children->take(3)->map(fn ($child) => $child->localized_name)->filter();
+          $fallbackKey = 'site.home.category_fallback.'.$cat->slug;
+          $fallback = __($fallbackKey);
+          if ($fallback === $fallbackKey) {
+            $fallback = __('site.home.category_fallback.default');
+          }
+          $blurb = $names->isNotEmpty() ? $names->implode($sep) : $fallback;
+        @endphp
+        <a class="cat-card tone-{{ $tone }}" href="{{ route('category.show', $cat->slug) }}" data-slug="{{ $cat->slug }}">
+          <span class="cat-card-ico" aria-hidden="true">
+            @include('partials.category-glyph', ['slug' => $cat->slug, 'emoji' => $cat->icon])
+          </span>
+          <b>{{ $cat->localized_name }}</b>
+          <small>{{ $blurb }}</small>
+        </a>
+      @endforeach
+    </div>
   </div>
 </section>
 
