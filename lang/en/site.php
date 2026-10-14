@@ -21,6 +21,47 @@ return [
         'login' => 'Log In',
         'logout' => 'Log Out',
         'menu' => 'Menu',
+        'close' => 'Close',
+    ],
+
+    'rules' => [
+        'title' => 'Working with Haach Land',
+        'lead' => 'This page is shown once, after an admin approves you and before the panel opens. You only see the rules for your own work.',
+        'accept' => 'I have read these rules and accept them to start.',
+        'accept_required' => 'Accept the rules to open the panel.',
+        'submit' => 'Open the panel',
+        'scopes' => [
+            'booth' => [
+                'title' => 'Booth',
+                'items' => [
+                    'The booth name, prices, and stock must be real, and you keep them up to date.',
+                    'Prepare and ship orders within a reasonable time.',
+                    'Payouts follow your contract and Haach Land’s percentage.',
+                    'Your document and bank details are used only for review and payouts.',
+                    'Prohibited goods or a breach can suspend the booth.',
+                ],
+            ],
+            'property' => [
+                'title' => 'Property and land',
+                'items' => [
+                    'The listing must be yours, or you must have the owner’s permission.',
+                    'Write the price, area, and location accurately.',
+                    'A listing is published only after admin review. Until then it stays off the site.',
+                    'Visitors do not see your phone number. Haach Land passes on a serious inquiry.',
+                    'A misleading listing is removed.',
+                ],
+            ],
+            'materials' => [
+                'title' => 'Material supply',
+                'items' => [
+                    'Offer only on a request you can actually supply.',
+                    'State the price, delivery time, and terms clearly.',
+                    'Barter applies only when both sides have accepted it on the request.',
+                    'The requester’s phone is not shared before Haach Land makes the introduction.',
+                    'After an agreement, quality and delivery are yours.',
+                ],
+            ],
+        ],
     ],
 
     'common' => [
@@ -404,7 +445,7 @@ return [
 
         'vendor' => [
             'pending_title' => 'Your booth is awaiting admin approval',
-            'pending_text' => 'As soon as the Haach Land team reviews and approves your booth details, you\'ll be notified and your vendor panel will be activated.',
+            'pending_text' => 'The result is texted to :phone. After approval, sign in with this account: you will read the booth rules once, then the panel opens.',
             'dashboard_title' => 'Vendor Dashboard',
             'greeting' => 'Hello, :name 👋',
             'greeting_sub' => "A summary of your booth's performance this month",
@@ -598,6 +639,7 @@ return [
             'dashboard_title' => 'My Property Panel',
             'greeting' => 'Hello, :name 👋',
             'greeting_sub' => 'Your listed properties and land',
+            'approval_sms' => 'Listings still under review are not on the site. When an admin approves one, a text goes to your mobile number and its status here changes to Published.',
             'add_property' => '+ List a new property',
             'kpi_total' => 'Total listings',
             'kpi_pending' => 'Under review',
@@ -747,7 +789,7 @@ return [
         'description_label' => 'About the job',
         'description_placeholder' => 'Brand, unloading limits, or whether a unit can be bartered',
         'submit_request' => 'Submit for review',
-        'saved' => 'Your request was saved and will appear on the board after review.',
+        'saved' => 'Your request was saved. The review result is texted to this number, and it appears on the board after approval.',
         'offer_box_title' => 'Can you supply this?',
         'offer_box_text' => 'The requester’s phone is hidden. Send a price and terms and Haach Land will connect you if it is a fit.',
         'offer_amount' => 'Quoted price (toman — optional)',

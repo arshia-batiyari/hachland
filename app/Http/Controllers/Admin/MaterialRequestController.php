@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\MaterialRequest;
+use App\Services\SmsService;
 use Illuminate\Http\Request;
 
 class MaterialRequestController extends Controller
 {
+    public function __construct(protected SmsService $sms) {}
+
     public function index(Request $request)
     {
         $materialRequests = MaterialRequest::withCount('offers')
@@ -34,6 +37,10 @@ class MaterialRequestController extends Controller
             'rejection_reason' => null,
         ]);
 
+        if ($materialRequest->phone) {
+            $this->sms->sendRaw($materialRequest->phone, 'درخواست مصالح «'.$materialRequest->localized_title.'» شما در هاچ‌لند تأیید و منتشر شد.');
+        }
+
         return back()->with('success', __('site.materials.approved'));
     }
 
@@ -45,6 +52,10 @@ class MaterialRequestController extends Controller
             'status' => 'rejected',
             'rejection_reason' => $data['rejection_reason'],
         ]);
+
+        if ($materialRequest->phone) {
+            $this->sms->sendRaw($materialRequest->phone, 'درخواست مصالح «'.$materialRequest->localized_title.'» تأیید نشد. دلیل: '.$data['rejection_reason']);
+        }
 
         return back()->with('success', __('site.materials.rejected'));
     }

@@ -105,6 +105,11 @@ Route::get('/clear-cache', function() {
 */
 Route::get('/vendor/pending', fn () => view('vendor.pending'))->middleware('auth')->name('vendor.pending');
 
+Route::middleware('auth')->group(function () {
+    Route::get('/rules', [\App\Http\Controllers\RulesController::class, 'show'])->name('rules.show');
+    Route::post('/rules', [\App\Http\Controllers\RulesController::class, 'accept'])->name('rules.accept');
+});
+
 Route::middleware(['auth', 'role:vendor'])->prefix('vendor')->name('vendor.')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\Vendor\DashboardController::class, 'index'])->name('dashboard');
 

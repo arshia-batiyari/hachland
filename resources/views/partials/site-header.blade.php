@@ -3,6 +3,12 @@
     <a href="{{ route('home') }}" class="logo"><div class="logo-mark"><img src="{{ asset('images/logo.png') }}" alt="{{ __('site.brand') }}"></div>{{ __('site.brand') }}</a>
 
    <nav class="navlinks">
+  <div class="nav-drawer-head">
+    <a href="{{ route('home') }}" class="logo nav-drawer-logo"><div class="logo-mark"><img src="{{ asset('images/logo.png') }}" alt=""></div>{{ __('site.brand') }}</a>
+    <button type="button" class="nav-drawer-close js-nav-toggle" aria-label="{{ __('site.nav.close') }}">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
   <div class="nav-drawer-lang">
     <a href="{{ request()->fullUrlWithQuery(['lang' => 'fa']) }}"><span class="{{ app()->getLocale() === 'fa' ? 'active' : 'inactive' }}">فا</span></a>
     <a href="{{ request()->fullUrlWithQuery(['lang' => 'en']) }}"><span class="{{ app()->getLocale() === 'en' ? 'active' : 'inactive' }}">EN</span></a>

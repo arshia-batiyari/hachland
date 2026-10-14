@@ -86,8 +86,9 @@
     if (e.target.closest('.js-nav-toggle')) {
       const opening = !document.body.classList.contains('nav-open');
       document.body.classList.toggle('nav-open', opening);
-      const btn = document.querySelector('.js-nav-toggle');
-      if (btn) btn.setAttribute('aria-expanded', opening ? 'true' : 'false');
+      document.querySelectorAll('.js-nav-toggle').forEach(function (btn) {
+        btn.setAttribute('aria-expanded', opening ? 'true' : 'false');
+      });
       return;
     }
     if (e.target.closest('.js-nav-scrim') || (e.target.closest('.navlinks a') && document.body.classList.contains('nav-open'))) {
