@@ -4,7 +4,7 @@
   "description": "دسترسی سریع به پنل ملک و زمین هاچ لند.",
   "id": "/landowner",
   "start_url": "/landowner/dashboard",
-  "scope": "/landowner",
+  "scope": "/",
   "display": "standalone",
   "display_override": [
     "standalone",

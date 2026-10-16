@@ -4,7 +4,7 @@
   "description": "دسترسی سریع به پنل غرفه‌داری هاچ لند — محصولات، سفارش‌ها و تسویه‌حساب.",
   "id": "/vendor",
   "start_url": "/vendor/dashboard",
-  "scope": "/vendor",
+  "scope": "/",
   "display": "standalone",
   "display_override": [
     "standalone",

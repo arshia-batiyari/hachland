@@ -4,7 +4,7 @@
   "description": "دسترسی سریع به پنل مدیریت هاچ لند — غرفه‌ها، سفارش‌ها، دسته‌بندی‌ها و درخواست‌های ملک.",
   "id": "/admin",
   "start_url": "/admin/dashboard",
-  "scope": "/admin",
+  "scope": "/",
   "display": "standalone",
   "display_override": [
     "standalone",

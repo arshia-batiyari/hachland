@@ -1099,7 +1099,16 @@ body{background:var(--bg);}
 .pwa-banner.is-manual .pwa-banner-default-text{display:none;}
 .pwa-banner.is-manual .pwa-banner-android-text{display:block;}
 .pwa-banner.is-manual .js-pwa-install{display:none;}
+.pwa-banner .js-pwa-open-external{display:none;background:var(--gradient-gold);color:#2B1E08;border-radius:8px;padding:8px 14px;font-weight:700;font-size:13px;text-decoration:none;line-height:1.2;}
+.pwa-banner.is-webview .js-pwa-open-external{display:inline-flex;align-items:center;justify-content:center;}
+.pwa-banner.is-webview .js-pwa-install{display:none;}
+.pwa-banner.is-webview .pwa-banner-default-text,
+.pwa-banner.is-webview .pwa-banner-ios-text{display:none;}
+.pwa-banner.is-webview .pwa-banner-android-text{display:block;}
+.pwa-banner.is-ios .js-pwa-open-external{display:none;}
 .pwa-banner.is-ios .pwa-banner-android-text{display:none;}
+.pwa-banner.is-webview.is-ios .pwa-banner-android-text{display:block;}
+.pwa-banner.is-webview.is-ios .pwa-banner-ios-text{display:none;}
 .pwa-banner.is-ios.is-manual .pwa-banner-default-text{display:none;}
 .pwa-banner-close{ width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,.1); color:#fff; display:flex; align-items:center; justify-content:center; font-size:18px; line-height:1; flex-shrink:0; transition:background var(--transition); }
 .pwa-banner-close:hover{ background:rgba(255,255,255,.18); }
@@ -1110,6 +1119,8 @@ body{background:var(--bg);}
   .pwa-banner-actions{ flex-basis:100%; justify-content:stretch; margin-top:4px; }
   .pwa-banner-actions .js-pwa-install{ flex:1; }
   .pwa-banner.is-manual .pwa-banner-actions{ flex-basis:auto; margin-top:0; }
+  .pwa-banner.is-webview .pwa-banner-actions{ flex-basis:100%; margin-top:4px; }
+  .pwa-banner.is-webview .js-pwa-open-external{ flex:1; }
 }
 
 /* ============ HOME SERVICES + LISTING CARDS + SWIPER ============ */

@@ -7,7 +7,9 @@
 <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32.png') }}">
 <link rel="apple-touch-icon" href="{{ asset('icons/apple-touch-icon.png') }}">
+@include('partials.pwa-prompt-capture')
 <link rel="manifest" href="{{ asset('manifest.json') }}">
+<script src="{{ asset('js/pwa.js') }}?v={{ @filemtime(public_path('js/pwa.js')) ?: time() }}" defer></script>
 <meta name="theme-color" content="#100D09">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -59,5 +61,6 @@
   </div>
 
   @stack('scripts')
+  @include('partials.pwa-install-banner', ['context' => 'site'])
 </body>
 </html>

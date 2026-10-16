@@ -8,10 +8,9 @@
 <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32.png') }}">
 <link rel="apple-touch-icon" href="{{ asset('icons/apple-touch-icon-panel.png') }}">
 
-{{-- PWA — نصب پنل مدیریت/فروشندگی/ملک روی گوشی یا سیستم به‌عنوان یک اپلیکیشن
-     مستقل، جدا از سایت اصلی (آیکون و نام خودش رو داره). هر نقش مانیفست خودش
-     رو داره چون start_url هر پنل فرق می‌کنه (/admin، /vendor، /landowner) —
-     یه مانیفست مشترک با یه start_url ثابت برای بقیه‌ی نقش‌ها ۴۰۴ می‌داد. --}}
+{{-- PWA — هر نقش مانیفست و start_url خودش را دارد تا آیکون جدا ساخته شود.
+     scope همهٔ سایت است تا برگشت به /login (بیرون از /admin) نصب را در
+     کروم، سامسونگ و اج باطل نکند و بعد از نصب هم ورود داخل خود اپ بماند. --}}
 @php
   $panelManifest = 'panel-manifest.json';
   if (auth()->check()) {
@@ -20,6 +19,7 @@
     elseif (auth()->user()->isLandowner()) $panelManifest = 'panel-manifest-landowner.json';
   }
 @endphp
+@include('partials.pwa-prompt-capture')
 <link rel="manifest" href="{{ asset($panelManifest) }}">
 <meta name="theme-color" content="#100D09">
 <meta name="mobile-web-app-capable" content="yes">

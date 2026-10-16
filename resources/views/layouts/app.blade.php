@@ -21,6 +21,7 @@
 <link rel="canonical" href="{{ url()->current() }}">
 
 {{-- PWA — نصب روی گوشی/سیستم به‌عنوان یک اپلیکیشن مستقل --}}
+@include('partials.pwa-prompt-capture')
 <link rel="manifest" href="{{ asset('manifest.json') }}">
 <meta name="theme-color" content="#100D09">
 <meta name="mobile-web-app-capable" content="yes">
