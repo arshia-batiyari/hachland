@@ -16,7 +16,7 @@ cd meydan
 composer install          # اگه فولدر vendor به هر دلیلی نبود/ناقص بود
 
 php artisan migrate
-php artisan db:seed          # می‌سازد: admin@meydan.test / password
+php artisan db:seed          # حساب مدیر: mahbobe.jamali1970@gmail.com
 php artisan storage:link
 php artisan serve
 ```
@@ -34,8 +34,8 @@ key:generate` رو بزنید).
 
 بعد از `db:seed`، با این مشخصات وارد پنل ادمین بشوید و حتماً رمز را عوض کنید:
 ```
-ایمیل: admin@meydan.test
-رمز:   password
+ایمیل: mahbobe.jamali1970@gmail.com
+رمز:   42364236
 ```
 
 ## احراز هویت و ثبت‌نام (تازه اضافه شد)
@@ -318,7 +318,7 @@ persian-datepicker) اضافه کنید.
 ## داده نمونه (Seeder) — برای تست فوری
 
 با `php artisan db:seed` این‌ها ساخته می‌شود:
-- ۱ حساب ادمین: `admin@meydan.test` / `password`
+- ۱ حساب ادمین: `mahbobe.jamali1970@gmail.com` / `42364236`
 - ۶ دسته‌بندی اصلی + ۱۳ زیردسته (همون ساختاری که تو موکاپ‌ها دیدید)
 - ۸ غرفه تأییدشده با حساب غرفه‌دار جدا برای هرکدوم (`vendor1@meydan.test` تا `vendor8@meydan.test` / `password`)
 - حدود ۳۰ محصول واقعی پخش‌شده بین غرفه‌ها

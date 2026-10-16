@@ -34,11 +34,13 @@ class VendorRegistrationController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $this->normalizeEmail($request);
+
         $data = $request->validate([
             // اطلاعات حساب کاربری
             'owner_name' => ['required', 'string', 'max:255'],
             'phone'      => ['required', 'string', 'max:20', 'unique:users,phone'],
-            'email'      => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email'],
+            'email'      => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password'   => ['required', 'confirmed', Rules\Password::defaults()],
 
             // اطلاعات غرفه
