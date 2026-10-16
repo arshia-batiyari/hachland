@@ -45,7 +45,7 @@
       </div>
       <div class="foot-col">
         <h5>{{ __('site.footer.landowners') }}</h5>
-        <a href="{{ route('register.landowner') }}">{{ __('site.footer.register_property') }}</a><a href="{{ route('properties.index') }}">{{ __('site.footer.browse_properties') }}</a>
+        <a href="{{ route('register.landowner') }}">{{ __('site.footer.register_property') }}</a><a href="{{ route('properties.index') }}">{{ __('site.footer.browse_properties') }}</a><a href="{{ route('materials.index') }}">{{ __('site.footer.browse_materials') }}</a>
       </div>
     </div>
     <div class="foot-bottom">

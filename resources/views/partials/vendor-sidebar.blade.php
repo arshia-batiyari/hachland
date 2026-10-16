@@ -5,6 +5,7 @@
   <a href="{{ route('vendor.dashboard') }}" class="side-link {{ request()->routeIs('vendor.dashboard') ? 'on' : '' }}"><span class="lft">📊 {{ __('site.sidebar.dashboard') }}</span></a>
   <a href="{{ route('vendor.products.index') }}" class="side-link {{ request()->routeIs('vendor.products.*') ? 'on' : '' }}"><span class="lft">📦 {{ __('site.sidebar.products') }}</span></a>
   <a href="{{ route('vendor.orders.index') }}" class="side-link {{ request()->routeIs('vendor.orders.*') ? 'on' : '' }}"><span class="lft">🧾 {{ __('site.sidebar.orders') }}</span></a>
+  <a href="{{ route('vendor.materials.index') }}" class="side-link {{ request()->routeIs('vendor.materials.*') ? 'on' : '' }}"><span class="lft">🏗️ {{ __('site.sidebar.material_requests') }}</span></a>
 
   <div class="side-section">{{ __('site.sidebar.finance') }}</div>
   <a href="{{ route('vendor.wallet.index') }}" class="side-link {{ request()->routeIs('vendor.wallet.*') ? 'on' : '' }}"><span class="lft">👛 {{ __('site.sidebar.wallet') }}</span></a>

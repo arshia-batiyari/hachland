@@ -25,10 +25,12 @@ class RegisteredUserController extends Controller
     /** ثبت‌نام یک کاربر عادی (مشتری) */
     public function store(Request $request): RedirectResponse
     {
+        $this->normalizeEmail($request);
+
         $request->validate([
             'name'     => ['required', 'string', 'max:255'],
             'phone'    => ['required', 'string', 'max:20', 'unique:users,phone'],
-            'email'    => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email'],
+            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 

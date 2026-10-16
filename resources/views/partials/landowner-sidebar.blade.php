@@ -5,6 +5,7 @@
   <a href="{{ route('landowner.dashboard') }}" class="side-link {{ request()->routeIs('landowner.dashboard') ? 'on' : '' }}"><span class="lft">🏡 {{ __('site.sidebar.my_properties') }}</span></a>
   <a href="{{ route('landowner.properties.create') }}" class="side-link {{ request()->routeIs('landowner.properties.create') ? 'on' : '' }}"><span class="lft">➕ {{ __('site.panel.landowner.add_property') }}</span></a>
   <a href="{{ route('properties.index') }}" class="side-link" target="_blank" rel="noopener"><span class="lft">🌐 {{ __('site.properties.nav_title') }}</span></a>
+  <a href="{{ route('materials.create') }}" class="side-link"><span class="lft">🏗️ {{ __('site.materials.post_request') }}</span></a>
 
   <div class="side-bottom">
     <div class="side-user">

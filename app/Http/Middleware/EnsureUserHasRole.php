@@ -24,6 +24,12 @@ class EnsureUserHasRole
             return redirect()->route('vendor.pending');
         }
 
+        // بعد از تأیید، اولین ورود به پنل صفحهٔ قوانین همان حوزه است.
+        if ($request->user()->pendingRuleScopes() !== []
+            && ! $request->routeIs('rules.show', 'rules.accept', 'vendor.pending', 'logout')) {
+            return redirect()->route('rules.show');
+        }
+
         return $next($request);
     }
 }

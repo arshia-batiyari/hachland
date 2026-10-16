@@ -21,6 +21,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'phone_verified_at' => 'datetime',
+            'rules_accepted_at' => 'array',
             'password' => 'hashed',
         ];
     }
@@ -63,5 +64,46 @@ class User extends Authenticatable
     public function isLandowner(): bool
     {
         return $this->role === 'landowner';
+    }
+
+    /** حوزه‌هایی که هنوز قوانین‌شان پذیرفته نشده و پنل بدون آن‌ها باز نمی‌شود. */
+    public function pendingRuleScopes(): array
+    {
+        if ($this->isVendor()) {
+            if ($this->booth?->status !== 'approved') {
+                return [];
+            }
+
+            $scopes = ['booth'];
+            $this->loadMissing('booth.categories');
+            $suppliesMaterials = $this->booth?->categories?->contains(
+                fn ($category) => str_starts_with((string) $category->slug, 'building-')
+            );
+            if ($suppliesMaterials) {
+                $scopes[] = 'materials';
+            }
+
+            return array_values(array_filter($scopes, fn ($scope) => ! $this->hasAcceptedRules($scope)));
+        }
+
+        if ($this->isLandowner() && ! $this->hasAcceptedRules('property')) {
+            return ['property'];
+        }
+
+        return [];
+    }
+
+    public function hasAcceptedRules(string $scope): bool
+    {
+        return ! empty(($this->rules_accepted_at ?? [])[$scope]);
+    }
+
+    public function acceptRules(array $scopes): void
+    {
+        $current = $this->rules_accepted_at ?? [];
+        foreach ($scopes as $scope) {
+            $current[$scope] = now()->toIso8601String();
+        }
+        $this->forceFill(['rules_accepted_at' => $current])->save();
     }
 }

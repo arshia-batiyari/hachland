@@ -2,16 +2,15 @@
 <html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'fa' ? 'rtl' : 'ltr' }}">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>@yield('title', __('site.nav.vendor_panel')) — {{ __('site.brand') }}</title>
 <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32.png') }}">
 <link rel="apple-touch-icon" href="{{ asset('icons/apple-touch-icon-panel.png') }}">
 
-{{-- PWA — نصب پنل مدیریت/فروشندگی/ملک روی گوشی یا سیستم به‌عنوان یک اپلیکیشن
-     مستقل، جدا از سایت اصلی (آیکون و نام خودش رو داره). هر نقش مانیفست خودش
-     رو داره چون start_url هر پنل فرق می‌کنه (/admin، /vendor، /landowner) —
-     یه مانیفست مشترک با یه start_url ثابت برای بقیه‌ی نقش‌ها ۴۰۴ می‌داد. --}}
+{{-- PWA — هر نقش مانیفست و start_url خودش را دارد تا آیکون جدا ساخته شود.
+     scope همهٔ سایت است تا برگشت به /login (بیرون از /admin) نصب را در
+     کروم، سامسونگ و اج باطل نکند و بعد از نصب هم ورود داخل خود اپ بماند. --}}
 @php
   $panelManifest = 'panel-manifest.json';
   if (auth()->check()) {
@@ -20,6 +19,7 @@
     elseif (auth()->user()->isLandowner()) $panelManifest = 'panel-manifest-landowner.json';
   }
 @endphp
+@include('partials.pwa-prompt-capture')
 <link rel="manifest" href="{{ asset($panelManifest) }}">
 <meta name="theme-color" content="#100D09">
 <meta name="mobile-web-app-capable" content="yes">
@@ -31,7 +31,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('css/app.css') }}?v={{ @filemtime(public_path('css/app.css')) ?: time() }}">
-<script src="{{ asset('js/pwa.js') }}" defer></script>
+<script src="{{ asset('js/pwa.js') }}?v={{ @filemtime(public_path('js/pwa.js')) ?: time() }}" defer></script>
 <script>
   // یه شنونده سراسری رو خود document که همیشه زنده می‌مونه (چون با Turbo فقط
   // محتوای body عوض می‌شه، نه خود document) — با delegation، هر فرمی که کلاس

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Booth;
 use App\Models\Category;
+use App\Models\MaterialRequest;
 use App\Models\Product;
 use Illuminate\Support\Facades\Cache;
 
@@ -19,6 +20,16 @@ class SitemapController extends Controller
             $urls = collect();
 
             $urls->push(['loc' => route('home'), 'priority' => '1.0', 'changefreq' => 'daily']);
+            $urls->push(['loc' => route('materials.index'), 'priority' => '0.8', 'changefreq' => 'daily']);
+
+            MaterialRequest::approved()->get()->each(function (MaterialRequest $request) use (&$urls) {
+                $urls->push([
+                    'loc' => route('materials.show', $request),
+                    'priority' => '0.6',
+                    'changefreq' => 'weekly',
+                    'lastmod' => $request->updated_at->toAtomString(),
+                ]);
+            });
 
             Category::where('is_active', true)->get()->each(function (Category $cat) use (&$urls) {
                 $urls->push([

@@ -2,7 +2,7 @@
 <html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'fa' ? 'rtl' : 'ltr' }}">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
 @php
   $seoTitle = trim(($__env->yieldContent('title') ?: '') . ' | ' . __('site.brand') . ' — ' . __('site.home.tagline'));
@@ -21,6 +21,7 @@
 <link rel="canonical" href="{{ url()->current() }}">
 
 {{-- PWA — نصب روی گوشی/سیستم به‌عنوان یک اپلیکیشن مستقل --}}
+@include('partials.pwa-prompt-capture')
 <link rel="manifest" href="{{ asset('manifest.json') }}">
 <meta name="theme-color" content="#100D09">
 <meta name="mobile-web-app-capable" content="yes">
@@ -71,7 +72,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800&display=swap"></noscript>
 <link rel="stylesheet" href="{{ asset('css/app.css') }}?v={{ @filemtime(public_path('css/app.css')) ?: time() }}">
-<script src="{{ asset('js/pwa.js') }}" defer></script>
+<script src="{{ asset('js/pwa.js') }}?v={{ @filemtime(public_path('js/pwa.js')) ?: time() }}" defer></script>
 
 {{-- کش‌شدن صفحات با Turbo باعث باگ‌های ناسازگار بین ناوبری‌های AJAX‌محور و
      دکمه‌ی بازگشت مرورگر می‌شد (صفحه بعد از back خراب می‌موند تا رفرش دستی)،
@@ -86,8 +87,9 @@
     if (e.target.closest('.js-nav-toggle')) {
       const opening = !document.body.classList.contains('nav-open');
       document.body.classList.toggle('nav-open', opening);
-      const btn = document.querySelector('.js-nav-toggle');
-      if (btn) btn.setAttribute('aria-expanded', opening ? 'true' : 'false');
+      document.querySelectorAll('.js-nav-toggle').forEach(function (btn) {
+        btn.setAttribute('aria-expanded', opening ? 'true' : 'false');
+      });
       return;
     }
     if (e.target.closest('.js-nav-scrim') || (e.target.closest('.navlinks a') && document.body.classList.contains('nav-open'))) {
@@ -314,6 +316,133 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 @include('partials.pwa-install-banner', ['context' => 'site'])
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('[data-h-swiper]').forEach(function (root) {
+        var track = root.querySelector('.h-swiper-track');
+        var prev = root.querySelector('.h-swiper-prev');
+        var next = root.querySelector('.h-swiper-next');
+        if (!track) return;
+
+        var rtl = getComputedStyle(track).direction === 'rtl';
+        var max0 = track.scrollWidth - track.clientWidth;
+        var mode = 'ltr';
+        if (rtl) {
+            mode = (max0 > 2 && track.scrollLeft > 1) ? 'reverse' : 'negative';
+        }
+
+        function cardStep() {
+            var item = track.querySelector('.h-swiper-item');
+            if (!item) return track.clientWidth;
+            var styles = getComputedStyle(track);
+            var gap = parseFloat(styles.columnGap || styles.gap) || 18;
+            return Math.round(item.getBoundingClientRect().width + gap);
+        }
+
+        function fromStart() {
+            var max = Math.max(0, track.scrollWidth - track.clientWidth);
+            var left = track.scrollLeft;
+            if (mode === 'ltr') return left;
+            if (mode === 'reverse') return max - left;
+            return Math.abs(left);
+        }
+
+        function atEnd() {
+            var max = Math.max(0, track.scrollWidth - track.clientWidth);
+            return fromStart() >= max - 2;
+        }
+
+        function goStart() {
+            if (mode === 'reverse') track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' });
+            else track.scrollTo({ left: 0, behavior: 'smooth' });
+        }
+
+        function update() {
+            var max = Math.max(0, track.scrollWidth - track.clientWidth);
+            var idle = max < 4;
+            if (prev) prev.disabled = idle || fromStart() <= 2;
+            if (next) next.disabled = idle;
+        }
+
+        function scrollDir(dir) {
+            var sign = mode === 'ltr' ? 1 : -1;
+            if (dir > 0 && atEnd()) { goStart(); return; }
+            track.scrollBy({ left: sign * dir * cardStep(), behavior: 'smooth' });
+        }
+
+        var paused = false;
+        var visible = false;
+        var dragging = false;
+        var moved = false;
+        var startX = 0;
+        var startScroll = 0;
+
+        if (prev) prev.addEventListener('click', function () { paused = true; scrollDir(-1); window.setTimeout(function () { paused = false; }, 4000); });
+        if (next) next.addEventListener('click', function () { paused = true; scrollDir(1); window.setTimeout(function () { paused = false; }, 4000); });
+
+        track.addEventListener('dragstart', function (e) { e.preventDefault(); });
+
+        track.addEventListener('pointerdown', function (e) {
+            if (e.pointerType !== 'mouse' || e.button !== 0) return;
+            if (e.target.closest('button')) return;
+            dragging = true;
+            moved = false;
+            startX = e.clientX;
+            startScroll = track.scrollLeft;
+            paused = true;
+        });
+
+        track.addEventListener('pointermove', function (e) {
+            if (!dragging || e.pointerType !== 'mouse') return;
+            var dx = e.clientX - startX;
+            if (Math.abs(dx) < 4) return;
+            if (!moved) {
+                moved = true;
+                track.classList.add('is-dragging');
+                if (track.setPointerCapture) track.setPointerCapture(e.pointerId);
+            }
+            track.scrollLeft = startScroll - dx;
+        });
+
+        function endDrag() {
+            if (!dragging) return;
+            dragging = false;
+            track.classList.remove('is-dragging');
+            window.setTimeout(function () { paused = false; }, 4000);
+        }
+        track.addEventListener('pointerup', endDrag);
+        track.addEventListener('pointercancel', endDrag);
+        track.addEventListener('click', function (e) {
+            if (!moved) return;
+            e.preventDefault();
+            e.stopPropagation();
+            moved = false;
+        }, true);
+
+        if (window.matchMedia('(hover: hover)').matches) {
+            root.addEventListener('mouseenter', function () { paused = true; });
+            root.addEventListener('mouseleave', function () { if (!dragging) paused = false; });
+        }
+
+        var seen = new IntersectionObserver(function (entries) {
+            visible = entries.some(function (entry) { return entry.isIntersecting; });
+        }, { threshold: 0.45 });
+        seen.observe(track);
+
+        window.setInterval(function () {
+            if (paused || !visible || dragging) return;
+            if (document.hidden) return;
+            if (track.scrollWidth - track.clientWidth < 8) return;
+            scrollDir(1);
+        }, 4000);
+
+        track.addEventListener('scroll', update, { passive: true });
+        window.addEventListener('resize', update);
+        update();
+    });
+});
+</script>
 
 @stack('scripts')
 </body>

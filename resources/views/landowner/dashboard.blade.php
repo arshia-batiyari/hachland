@@ -19,6 +19,11 @@
 <div class="alert" style="background:var(--primary-tint); color:var(--primary-dark); margin-bottom:22px;">
   {{ __('site.panel.landowner.privacy_note') }}
 </div>
+@if ($stats['pending'] > 0)
+  <div class="alert" style="background:#F3F6FF; color:#243056; margin-bottom:22px;">
+    {{ __('site.panel.landowner.approval_sms') }}
+  </div>
+@endif
 
 <div class="kpi-row">
   <div class="kpi"><div class="kpi-icon">🏡</div><b>{{ $stats['total'] }}</b><span>{{ __('site.panel.landowner.kpi_total') }}</span></div>

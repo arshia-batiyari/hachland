@@ -44,27 +44,7 @@
     @else
       <div class="product-grid enhanced-grid">
         @foreach ($products as $product)
-          <div class="product-card product-card-advanced" data-product-id="{{ $product->id }}" data-product-slug="{{ $product->slug }}">
-            <div class="product-card-media">
-              <img src="{{ $product->image_url }}" alt="{{ $product->localized_name }}" loading="lazy">
-              @if(($product->discount_percent ?? 0) > 0)
-                <span class="discount-badge">٪{{ $product->discount_percent }} تخفیف</span>
-              @endif
-              <span class="product-chip">{{ $product->stock > 0 ? __('site.common.available') : __('site.common.unavailable') }}</span>
-            </div>
-            <div class="product-card-content">
-              <span class="product-booth-name">{{ $product->booth->localized_name }}</span>
-              <b>{{ $product->localized_name }}</b>
-              <small>{{ $product->category?->localized_name }}</small>
-              <div class="product-price-stack">
-                @if(($product->discount_percent ?? 0) > 0)
-                  <del>{{ number_format($product->price) }} {{ __('site.common.toman') }}</del>
-                @endif
-                <strong>{{ number_format($product->final_price) }} {{ __('site.common.toman') }}</strong>
-              </div>
-              <span class="product-card-cta">بررسی جزئیات</span>
-            </div>
-          </div>
+          @include('partials.product-card')
         @endforeach
       </div>
       <div class="pagination">{{ $products->links() }}</div>
