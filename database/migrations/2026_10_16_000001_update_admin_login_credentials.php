@@ -17,7 +17,7 @@ return new class extends Migration
         if (! $admin) {
             User::create([
                 'name' => 'مدیر سایت',
-                'phone' => '09120000000',
+                'phone' => '09111775006',
                 'email' => $email,
                 'password' => Hash::make('42364236'),
                 'role' => 'admin',

@@ -15,6 +15,7 @@ class AdminUserSeeder extends Seeder
     public function run(): void
     {
         $email = 'mahbobe.jamali1970@gmail.com';
+        $phone = '09111775006';
 
         $admin = User::where('email', 'admin@meydan.test')->first()
             ?? User::where('email', $email)->first()
@@ -27,7 +28,14 @@ class AdminUserSeeder extends Seeder
                 $taken->save();
             }
 
+            $holder = User::where('phone', $phone)->where('id', '!=', $admin->id)->first();
+            if ($holder) {
+                $holder->phone = null;
+                $holder->save();
+            }
+
             $admin->email = $email;
+            $admin->phone = $phone;
             $admin->password = Hash::make('42364236');
             $admin->role = 'admin';
             if (! $admin->name) {
@@ -40,7 +48,7 @@ class AdminUserSeeder extends Seeder
 
         User::create([
             'name' => 'مدیر سایت',
-            'phone' => '09120000000',
+            'phone' => $phone,
             'email' => $email,
             'password' => Hash::make('42364236'),
             'role' => 'admin',
