@@ -55,18 +55,33 @@
     if (text) el.textContent = text;
   }
 
-  function showManual() {
+  function raiseBanner() {
     if (!banner) return;
+    var covered = 0;
+    if (window.visualViewport) {
+      covered = window.innerHeight - window.visualViewport.height - window.visualViewport.offsetTop;
+      if (covered < 0) covered = 0;
+    }
+    var phone = window.matchMedia('(max-width: 900px), (pointer: coarse)').matches;
+    var reserve = phone ? 84 : 0;
+    var lift = 12 + Math.max(Math.round(covered), reserve);
+    banner.style.bottom = 'calc(' + lift + 'px + env(safe-area-inset-bottom, 0px))';
+  }
+
+  function showManual() {
+    if (!banner || banner.hasAttribute('hidden')) return;
     banner.classList.add('is-manual');
     banner.classList.add('is-visible');
     applyManualCopy();
+    raiseBanner();
   }
 
   function armInstall() {
-    if (!banner || !deferredPrompt) return;
+    if (!banner || !deferredPrompt || banner.hasAttribute('hidden')) return;
     if (banner.classList.contains('is-webview')) return;
     banner.classList.remove('is-manual');
     banner.classList.add('is-visible');
+    raiseBanner();
   }
 
   window.addEventListener('hach-install-ready', function () {
@@ -83,9 +98,10 @@
     if (!banner) return;
 
     var storageKey = banner.dataset.dismissKey || 'pwa_banner_dismissed_at';
-    if (isStandalone()) return;
+    if (isStandalone() || banner.hasAttribute('hidden')) return;
 
-    var dismissedAt = parseInt(localStorage.getItem(storageKey) || '0', 10);
+    var dismissedAt = 0;
+    try { dismissedAt = parseInt(localStorage.getItem(storageKey) || '0', 10); } catch (err) { dismissedAt = 0; }
     var fourteenDays = 14 * 24 * 60 * 60 * 1000;
     if (dismissedAt && (Date.now() - dismissedAt) < fourteenDays) return;
 
@@ -96,7 +112,10 @@
 
     function hideBanner(remember) {
       banner.classList.remove('is-visible');
-      if (remember) localStorage.setItem(storageKey, String(Date.now()));
+      banner.setAttribute('hidden', '');
+      banner.style.display = 'none';
+      if (!remember) return;
+      try { localStorage.setItem(storageKey, String(Date.now())); } catch (err) {}
     }
 
     if (kind === 'webview') banner.classList.add('is-webview');
@@ -122,6 +141,13 @@
     } else if (deferredPrompt) {
       armInstall();
     }
+
+    raiseBanner();
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', raiseBanner);
+      window.visualViewport.addEventListener('scroll', raiseBanner);
+    }
+    window.addEventListener('resize', raiseBanner);
 
     window.addEventListener('appinstalled', function () {
       hideBanner(true);

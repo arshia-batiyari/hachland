@@ -7,4 +7,17 @@ window.addEventListener('beforeinstallprompt', function (event) {
   window.__hachInstall = event;
   window.dispatchEvent(new Event('hach-install-ready'));
 });
+document.addEventListener('click', function (event) {
+  var close = event.target.closest && event.target.closest('.js-pwa-dismiss');
+  if (!close) return;
+  var banner = close.closest('.js-pwa-banner');
+  if (!banner) return;
+  event.preventDefault();
+  banner.classList.remove('is-visible');
+  banner.setAttribute('hidden', '');
+  banner.style.display = 'none';
+  try {
+    localStorage.setItem(banner.getAttribute('data-dismiss-key') || 'pwa_banner_dismissed_at', String(Date.now()));
+  } catch (err) {}
+}, true);
 </script>
